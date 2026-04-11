@@ -4,7 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROUJÎNA | روجينا</title>
-     
+
+    <script>
+        (function() {
+            try {
+                var test = '__storage_test__';
+                localStorage.setItem(test, test);
+                localStorage.removeItem(test);
+            } catch (e) {
+                var mockStorage = {
+                    _data: {},
+                    setItem: function(id, val) { return this._data[id] = String(val); },
+                    getItem: function(id) { return this._data.hasOwnProperty(id) ? this._data[id] : null; },
+                    removeItem: function(id) { return delete this._data[id]; },
+                    clear: function() { return this._data = {}; }
+                };
+                Object.defineProperty(window, 'localStorage', { value: mockStorage, writable: true });
+                Object.defineProperty(window, 'sessionStorage', { value: mockStorage, writable: true });
+            }
+        })();
+    </script>
     <script>
         try {
             const localSettings = JSON.parse(localStorage.getItem('siteSettings'));
