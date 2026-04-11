@@ -130,7 +130,10 @@
         .fab-sewing { background: var(--primary); }
         .fab-whatsapp { background: #25d366; right: 20px; left: auto; position: fixed; bottom: 30px;}
 
-        /* --- زر اطلب الآن العائم --- */
+        /* --- زر اطلب الآن العائم وزر تأكيد الطلب بانيميشن --- */
+        .fab-buy-now, .btn-pulse-submit {
+            animation: pulseBtn 2s infinite;
+        }
         .fab-buy-now {
             position: fixed;
             bottom: 30px;
@@ -148,7 +151,6 @@
             align-items: center;
             gap: 10px;
             border: 2px solid white;
-            animation: pulseBtn 2s infinite;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             transition: var(--transition);
         }
@@ -253,7 +255,7 @@
             .fab-buy-now { display: none !important; } /* إخفاء الزر عند الطباعة */
         }
 
-        /* --- تأثيرات الحركة (Animations) التي طلبتها --- */
+        /* --- تأثيرات الحركة (Animations) --- */
         .category-item, .sidebar ul li, .admin-nav li { transition: all 0.3s ease; -webkit-tap-highlight-color: transparent; }
         
         .category-item:hover { transform: translateY(-5px) scale(1.05); }
@@ -331,7 +333,7 @@
             </button>
             <div class="details-container" id="single-product-container"></div>
             
-            <div class="fab-buy-now" onclick="scrollToOrderForm()">
+            <div class="fab-buy-now" id="fab-buy-now" onclick="scrollToOrderForm()">
                 <i class="fas fa-shopping-cart"></i> <span data-ar="اطلب الآن" data-fr="Achetez">اطلب الآن</span>
             </div>
         </div>
@@ -855,11 +857,15 @@
         window.showPage = (page) => { document.getElementById('sidebar').classList.remove('active'); window.location.hash = (page==='home')?'':''; };
         window.openWhatsapp = () => window.open(`https://wa.me/${window.siteState.settings.whatsapp}`, '_blank');
 
-        // النزول التلقائي للاستمارة
+        // النزول التلقائي للاستمارة وإخفاء الزر العائم
         window.scrollToOrderForm = () => {
             const form = document.querySelector('.order-form');
             if (form) {
                 form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            const fabBuy = document.getElementById('fab-buy-now');
+            if (fabBuy) {
+                fabBuy.style.display = 'none';
             }
         };
 
@@ -989,6 +995,12 @@
 
         // Product Details & Checkout Form
         function renderProductDetails(id) {
+            // إظهار الزر العائم مجدداً في حال الدخول لمنتج جديد
+            const fabBuyNow = document.getElementById('fab-buy-now');
+            if (fabBuyNow) {
+                fabBuyNow.style.display = 'flex';
+            }
+
             if(window.siteState.products.length === 0) {
                 document.getElementById('single-product-container').innerHTML = '<div class="loader" style="display: block; margin: 50px auto;"></div>';
                 return;
@@ -1066,7 +1078,7 @@
                             <div style="display:flex; justify-content:space-between; font-size:22px; color:var(--primary); font-weight:800; margin-top:10px;"><span>${window.siteState.lang==='ar'?'الإجمالي':'Total'}:</span> <span><span id="chk-total-price">${p.price}</span> DA</span></div>
                         </div>
                         
-                        <button class="btn" onclick="submitProductOrder('${p.id}')">
+                        <button class="btn btn-pulse-submit" onclick="submitProductOrder('${p.id}')">
                             <i class="fas fa-shopping-cart" style="margin-left:8px;"></i> ${window.siteState.lang==='ar'?'تأكيد الطلب':'Confirmer la commande'}
                         </button>
                     </div>
