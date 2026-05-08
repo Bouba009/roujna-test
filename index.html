@@ -2,12 +2,12 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- تحسينات الـ SEO -->
     <title>ROUJÎNA | روجينا</title>
     <meta name="description" content="ROUJÎNA - متجرك الأول للأناقة والتصميم. تسوق أحدث الملابس النسائية، ملابس الأطفال، والأفرشة.">
-    <!-- تم تغيير اللون الافتراضي للأحمر -->
-    <meta name="theme-color" content="#e74c3c">
+    <!-- تم تغيير اللون إلى الأبيض لإلغاء تلوين Status Bar -->
+    <meta name="theme-color" content="#ffffff">
 
     <!-- تسريع الاتصال بالخوادم الخارجية -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,8 +63,11 @@
             --transition: all 0.3s ease;
         }
 
+        /* إصلاح مشكلة الإزاحة الجانبية عند التحميل */
+        html { max-width: 100vw; overflow-x: hidden; }
+        body { width: 100%; max-width: 100vw; overflow-x: hidden; margin: 0; padding: 0; background-color: #f8f9fa; color: var(--dark); }
+        
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
-        body { background-color: #f8f9fa; color: var(--dark); overflow-x: hidden; }
         a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
         
@@ -73,24 +76,29 @@
 
         .fade-in { animation: fadeIn 0.5s ease-out; }
 
-        /* أنيميشن تحميل 3 نقاط للصور */
+        /* أنيميشن تحميل Blinking Dots */
         .dots-loader {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: #f1f1f1; display: flex; justify-content: center; align-items: center; gap: 6px;
+            background: #f8f9fa; display: flex; justify-content: center; align-items: center; gap: 6px;
             z-index: 2; animation: fadeOutDots 0.3s 1s forwards;
             border-radius: inherit;
         }
         .dots-loader .dot {
-            width: 8px; height: 8px; background: var(--primary); border-radius: 50%;
-            animation: bounceDot 0.5s infinite alternate;
+            width: 10px; height: 10px; background: var(--primary); border-radius: 50%;
+            animation: blinkDot 1.4s infinite both;
         }
-        .dots-loader .dot:nth-child(2) { animation-delay: 0.15s; }
-        .dots-loader .dot:nth-child(3) { animation-delay: 0.3s; }
+        .dots-loader .dot:nth-child(1) { animation-delay: 0s; }
+        .dots-loader .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dots-loader .dot:nth-child(3) { animation-delay: 0.4s; }
 
-        @keyframes bounceDot { 0% { transform: translateY(0); } 100% { transform: translateY(-6px); } }
+        @keyframes blinkDot {
+            0% { opacity: 0.2; transform: scale(0.8); }
+            20% { opacity: 1; transform: scale(1.1); }
+            100% { opacity: 0.2; transform: scale(0.8); }
+        }
         @keyframes fadeOutDots { to { opacity: 0; visibility: hidden; } }
 
-        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
         .header-top { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; }
         .logo { font-size: 28px; font-weight: 800; color: var(--primary); letter-spacing: 2px; display:flex; align-items:center; }
         .logo img { max-height: 40px; border-radius: 5px; object-fit: contain; }
@@ -111,7 +119,7 @@
         .categories { padding: 20px 5%; display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; }
         .categories::-webkit-scrollbar { display: none; }
         .category-item { min-width: 80px; text-align: center; cursor: pointer; }
-        .category-img-wrap { width: 70px; height: 70px; margin: 0 auto; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; position: relative; }
+        .category-img-wrap { width: 70px; height: 70px; margin: 0 auto; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; position: relative; background:#fff;}
         .category-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
         .category-item p { margin-top: 8px; font-size:14px; font-weight: bold; }
 
@@ -121,20 +129,48 @@
         
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .product-card { background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: var(--transition); cursor: pointer; position:relative; display:flex; flex-direction:column; }
-        .product-img-wrap { position: relative; width: 100%; aspect-ratio: 1 / 1; }
+        .product-img-wrap { position: relative; width: 100%; aspect-ratio: 1 / 1; background:#fff;}
         .product-img { width: 100%; height: 100%; object-fit: cover; }
-        .product-info { padding: 10px; text-align:center; flex:1; display:flex; flex-direction:column; justify-content:space-between;}
-        .product-title { font-size: 15px; font-weight: bold; margin-bottom: 5px; }
-        .product-price { color: var(--primary); font-size: 18px; font-weight: 800; }
+        .product-info { padding: 15px 10px; text-align:center; flex:1; display:flex; flex-direction:column; justify-content:space-between;}
+        .product-title { font-size: 15px; font-weight: bold; margin-bottom: 10px; }
+        
+        /* إطار السعر المميز */
+        .price-frame {
+            display: inline-block;
+            padding: 6px 15px;
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .details-price-frame {
+            display: inline-block;
+            padding: 10px 25px;
+            background-color: transparent;
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            color: var(--primary);
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
         .old-price { text-decoration: line-through; color: #999; font-size: 13px; margin-right: 5px; }
         .badge-featured { position:absolute; top:8px; right:8px; background:var(--secondary); color:white; padding:3px 8px; border-radius:15px; font-size:11px; z-index:10;}
 
         .product-details-page { display: none; padding: 20px 5%; background: var(--white); min-height: 80vh; position: relative; }
         .details-container { display: flex; flex-direction:column; gap: 20px; }
         @media(min-width:768px){ .details-container {flex-direction:row;} .products-grid{ grid-template-columns: repeat(4, 1fr); gap:20px; } }
+        
         .details-img-wrap { flex: 1; text-align:center;}
-        .details-main-img-wrap { position: relative; width: 100%; max-width: 400px; margin: 0 auto; border-radius: 10px; overflow: hidden; aspect-ratio: 1 / 1; }
-        .details-main-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+        /* إصلاح ظهور الصورة كاملة وعدم قصها */
+        .details-main-img-wrap { position: relative; width: 100%; max-width: 450px; margin: 0 auto; border-radius: 10px; overflow: hidden; background:#f8f9fa; }
+        .details-main-img-wrap img { width: 100%; height: auto; max-height: 70vh; object-fit: contain; display: block; margin: 0 auto; }
+        
         .details-info { flex: 1; }
         
         .order-form { background: #fff; padding: 30px; border-radius: 15px; margin-top: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #f0f0f0; }
@@ -142,14 +178,14 @@
         .pro-form-group label { display: block; margin-bottom: 8px; font-weight: bold; font-size:14px; color: #555; }
         .input-icon-wrap { position: relative; }
         .input-icon-wrap i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #888; }
-        .pro-input { width: 100%; padding: 14px 40px 14px 15px; border: 2px solid #eef0f3; border-radius: 10px; outline: none; transition: var(--transition); font-family: inherit; font-size: 15px; background: #f9fafb; color:#333; }
-        .pro-input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(231,76,60,0.1); }
+        .pro-input { width: 100%; padding: 14px 40px 14px 15px; border: 2px solid #eef0f3; border-radius: 10px; outline: none; transition: var(--transition); font-family: inherit; font-size: 15px; background: #fff; color:#333; }
+        .pro-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(231,76,60,0.1); }
         .pro-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         
         .variant-selector { display: flex; gap: 10px; flex-wrap: wrap; }
         .variant-label { cursor: pointer; user-select: none; }
         .variant-label input { display: none; }
-        .variant-box { padding: 10px 20px; border: 2px solid #eef0f3; border-radius: 10px; background: #f9fafb; transition: var(--transition); font-weight: bold; color: #555; }
+        .variant-box { padding: 10px 20px; border: 2px solid #eef0f3; border-radius: 10px; background: #fff; transition: var(--transition); font-weight: bold; color: #555; }
         .variant-label input:checked + .variant-box { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
 
         .btn { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 17px; font-weight:bold; cursor: pointer; transition: var(--transition); box-shadow: 0 6px 15px rgba(0,0,0,0.1);}
@@ -719,7 +755,6 @@
     </div>
 
 
-    <!-- السكربت المجمع الكامل -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
         import { getFirestore, collection, addDoc, doc, setDoc, deleteDoc, updateDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
@@ -740,7 +775,7 @@
 
         window.siteState = {
             lang: 'ar',
-            products: [], banners: [], orders: [], sewingOrders: [], accounting: [], categories:[],
+            products:[], banners: [], orders: [], sewingOrders: [], accounting: [], categories:[],
             wilayas:[
                 {id:16, name_ar:'الجزائر', name_fr:'Alger', price_desk:400, price_home:600},
                 {id:9, name_ar:'البليدة', name_fr:'Blida', price_desk:300, price_home:500}
@@ -991,7 +1026,10 @@
                     </div>
                     <div class="product-info">
                         <div class="product-title">${prodTitle}</div>
-                        <div>${p.oldPrice ? `<span class="old-price">${p.oldPrice} DA</span>` : ''} <span class="product-price">${p.price} DA</span></div>
+                        <div>
+                            ${p.oldPrice ? `<span class="old-price">${p.oldPrice} DA</span>` : ''} 
+                            <div class="price-frame">${p.price} DA</div>
+                        </div>
                     </div>
                 </div>`
             }).join('');
@@ -1035,9 +1073,9 @@
                     ${galleryHtml}
                 </div>
                 <div class="details-info">
-                    <h1 style="color:var(--primary); margin-bottom:10px;">${name}</h1>
-                    <p style="font-size:26px; font-weight:800; margin-bottom:10px;">${p.price} DA</p>
-                    <p style="color:#666; line-height:1.6; margin-bottom:20px;">${p.desc||''}</p>
+                    <h1 style="color:var(--primary); margin-bottom:15px;">${name}</h1>
+                    <div class="details-price-frame">${p.price} DA</div>
+                    <p style="color:#666; line-height:1.6; margin-bottom:20px; font-size:16px;">${p.desc||''}</p>
                     
                     <div class="order-form">
                         <h2 style="margin-bottom:20px; color:var(--dark); text-align:center; font-weight:800;">${window.siteState.lang==='ar'?'استمارة الطلب':'Formulaire de commande'}</h2>
@@ -1079,10 +1117,10 @@
                             </select>
                         </div>
                         
-                        <div style="background:#f4f6f9; padding:20px; border-radius:10px; margin-bottom:20px; font-size:16px; color:#333; border:1px solid #eef0f3;">
+                        <div style="background:#fff; padding:20px; border-radius:10px; margin-bottom:20px; font-size:16px; color:#333; border:2px solid #eef0f3;">
                             <div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span>${window.siteState.lang==='ar'?'المنتج':'Produit'}:</span> <strong>${p.price} DA</strong></div>
-                            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #ddd; padding-bottom:8px; margin-bottom:8px;"><span>${window.siteState.lang==='ar'?'التوصيل':'Livraison'}:</span> <strong><span id="chk-shipping-price">0</span> DA</strong></div>
-                            <div style="display:flex; justify-content:space-between; font-size:22px; color:var(--primary); font-weight:800; margin-top:10px;"><span>${window.siteState.lang==='ar'?'الإجمالي':'Total'}:</span> <span><span id="chk-total-price">${p.price}</span> DA</span></div>
+                            <div style="display:flex; justify-content:space-between; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:10px;"><span>${window.siteState.lang==='ar'?'التوصيل':'Livraison'}:</span> <strong><span id="chk-shipping-price">0</span> DA</strong></div>
+                            <div style="display:flex; justify-content:space-between; font-size:22px; color:var(--primary); font-weight:800; margin-top:5px;"><span>${window.siteState.lang==='ar'?'الإجمالي':'Total'}:</span> <span><span id="chk-total-price">${p.price}</span> DA</span></div>
                         </div>
                         
                         <button class="btn btn-pulse-submit" onclick="submitProductOrder('${p.id}')">
