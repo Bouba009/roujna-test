@@ -76,7 +76,7 @@
 
         .fade-in { animation: fadeIn 0.5s ease-out; }
 
-        /* لودر البداية (نقاط وامضة) يغطي الشاشة بأكملها */
+        /* لودر البداية (نقاط وامضة) يغطي الشاشة بأكملها لمدة 1 ثانية */
         #global-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: #ffffff; z-index: 999999;
@@ -147,7 +147,7 @@
             transform: scale(1.1); 
         }
 
-        /* ستايل الفئات الفاخرة بالأيقونات (Luxury Categories with Icons) */
+        /* ستايل الفئات الفاخرة بالأيقونات (Luxury Categories with Apprel Icons) */
         .categories { padding: 30px 5%; display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; }
         .categories::-webkit-scrollbar { display: none; }
         .category-item { min-width: 90px; text-align: center; cursor: pointer; }
@@ -159,16 +159,25 @@
             border: 1px solid #e0e0e0; 
             background: #fff;
             display: flex; justify-content: center; align-items: center;
-            font-size: 30px; color: var(--primary);
+            color: var(--primary);
             transition: all 0.4s ease;
             box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+        }
+        .category-icon-wrap svg {
+            width: 32px;
+            height: 32px;
+            fill: currentColor;
+            transition: transform 0.4s ease;
         }
         .category-item:hover .category-icon-wrap {
             border-color: var(--primary);
             background: var(--primary);
             color: #fff;
             transform: scale(1.1);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .category-item:hover .category-icon-wrap svg {
+            transform: scale(1.1);
         }
         .category-item p { 
             margin-top: 12px; 
@@ -240,7 +249,7 @@
         @media(min-width:768px){ .details-container {flex-direction:row;} .products-grid{ grid-template-columns: repeat(4, 1fr); gap:20px; } }
         
         .details-img-wrap { flex: 1; text-align:center;}
-        /* إصلاح ظهور الصورة كاملة وعدم قصها */
+        /* إظهار صورة المنتج كاملة وعدم قصها */
         .details-main-img-wrap { position: relative; width: 100%; max-width: 450px; margin: 0 auto; border-radius: 10px; overflow: hidden; background:#f8f9fa; }
         .details-main-img-wrap img { width: 100%; height: auto; max-height: 70vh; object-fit: contain; display: block; margin: 0 auto; }
         
@@ -432,12 +441,11 @@
 
         <div id="home-page">
             <div class="hero-slider" id="hero-slider"></div>
+            <!-- حاوية الفئات -->
             <div class="categories" id="categories-container"></div>
             <div class="products-section">
                 <h2 class="section-title" data-ar="أحدث المنتجات" data-fr="Nouveaux Produits">أحدث المنتجات</h2>
-                <div class="products-grid" id="products-grid">
-                    <div class="loader" id="products-loader" style="display: block;"></div>
-                </div>
+                <div class="products-grid" id="products-grid"></div>
             </div>
         </div>
 
@@ -634,7 +642,7 @@
 
             <div id="tab-categories" class="tab-section">
                 <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-                    <h3>الفئات المنشورة</h3>
+                    <h3>الفئات المنشورة (أيقونات)</h3>
                     <button class="btn" style="width:150px; padding:8px;" onclick="openCategoryModal()">إضافة فئة +</button>
                 </div>
                 <div class="products-grid" id="admin-categories-grid" style="grid-template-columns: repeat(auto-fill, minmax(150px,1fr));"></div>
@@ -795,29 +803,29 @@
         </div>
     </div>
 
-    <!-- المودال الخاص بإضافة الفئات: استبدلنا الصورة بقائمة أيقونات -->
+    <!-- المودال الخاص بإضافة الفئات: استبدلنا رفع الصورة بقائمة الأيقونات -->
     <div class="modal" id="add-category-modal">
         <div class="modal-content">
             <i class="fas fa-times close-modal" onclick="closeModal('add-category-modal')"></i>
-            <h2 id="modal-category-title" style="margin-bottom:15px;">إضافة/تعديل فئة</h2>
+            <h2 id="modal-category-title" style="margin-bottom:15px;">إضافة/تعديل فئة (أيقونة)</h2>
             <input type="hidden" id="cat-id">
+            
             <div class="form-group" style="margin-bottom:10px;">
-                <label>أيقونة الفئة</label>
-                <select id="cat-icon" class="form-control">
-                    <option value="fas fa-tshirt">ملابس عامة / تيشيرت</option>
-                    <option value="fas fa-female">ملابس نسائية / فستان</option>
-                    <option value="fas fa-child">ملابس أطفال</option>
-                    <option value="fas fa-bed">أفرشة / سرير</option>
-                    <option value="fas fa-gem">اكسسوارات / جوهرة</option>
-                    <option value="fas fa-cut">خياطة / مقص</option>
-                    <option value="fas fa-shoe-prints">أحذية</option>
-                    <option value="fas fa-glasses">نظارات</option>
-                    <option value="fas fa-hat-cowboy">قبعات</option>
-                    <option value="fas fa-shopping-bag">حقائب</option>
-                    <option value="fas fa-ring">خواتم / مجوهرات</option>
-                    <option value="fas fa-star">نجمة / أخرى</option>
+                <label>اختر أيقونة الفئة</label>
+                <select id="cat-icon" class="form-control" style="font-weight: bold;">
+                    <option value="dress">فستان / ملابس نسائية (Dress)</option>
+                    <option value="tshirt">تيشيرت / ملابس رجالية (T-Shirt)</option>
+                    <option value="bodysuit">ملابس أطفال (Kids/Bodysuit)</option>
+                    <option value="pants">سراويل (Pants)</option>
+                    <option value="hoodie">هودي / ملابس شتوية (Hoodie)</option>
+                    <option value="bed">أفرشة / سرير (Bedding)</option>
+                    <option value="bag">حقائب (Bags)</option>
+                    <option value="shoes">أحذية (Shoes)</option>
+                    <option value="hanger">شماعة / أخرى (Hanger)</option>
+                    <option value="sewing">خياطة وتصميم (Sewing)</option>
                 </select>
             </div>
+
             <div class="form-row">
                 <div><label>الاسم (عربي)</label><input type="text" id="cat-name-ar" class="form-control"></div>
                 <div><label>الاسم (فرنسي)</label><input type="text" id="cat-name-fr" class="form-control"></div>
@@ -870,6 +878,20 @@
         const db = getFirestore(app);
 
         const adminHash = "I2FtaXJhMjAyNiM=";
+
+        // مكتبة الأيقونات المخصصة (Solid Flat Vectors) مطابقة للصورة المطلوبة
+        window.apparelIcons = {
+            'tshirt': '<svg viewBox="0 0 512 512"><path d="M256 96c35.3 0 64-28.7 64-64H192c0 35.3 28.7 64 64 64zm-144 0L19.2 164.2c-15 11.2-22.4 29.8-18.8 48.3l12 60.1c3.5 17.5 19.3 29.4 37.1 27.6l62.5-6.3v186c0 17.7 14.3 32 32 32h224c17.7 0 32-14.3 32-32v-186l62.5 6.3c17.8 1.8 33.6-10.1 37.1-27.6l12-60.1c3.6-18.5-3.8-37.1-18.8-48.3L400 96H112z"/></svg>',
+            'dress': '<svg viewBox="0 0 384 512"><path d="M192 0c-17.7 0-32 14.3-32 32V61c-27.6 15.3-46.6 44.2-47.8 77.2L89 299.6c-1.2 33-20.2 61.9-47.8 77.2V448c0 35.3 28.7 64 64 64H278.8c35.3 0 64-28.7 64-64V376.8c-27.6-15.3-46.6-44.2-47.8-77.2l-23.2-161.4C270.6 105.2 251.6 76.3 224 61V32c0-17.7-14.3-32-32-32z"/></svg>',
+            'pants': '<svg viewBox="0 0 512 512"><path d="M96 64h320c17.7 0 32 14.3 32 32v352c0 17.7-14.3 32-32 32h-64c-17.7 0-32-14.3-32-32V256H192v192c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32z"/></svg>',
+            'bodysuit': '<svg viewBox="0 0 448 512"><path d="M224 0c17.7 0 32 14.3 32 32v16h16c35.3 0 64 28.7 64 64v32h-64v-32c0-8.8-7.2-16-16-16h-16v48c0 17.7-14.3 32-32 32s-32-14.3-32-32V96h-16c-8.8 0-16 7.2-16 16v32H80V112c0-35.3 28.7-64 64-64h16V32c0-17.7 14.3-32 32-32zM80 192h288v96c0 17.7-14.3 32-32 32H112c-17.7 0-32-14.3-32-32v-96zm32 160h224c17.7 0 32 14.3 32 32v64c0 35.3-28.7 64-64 64h-32c-17.7 0-32-14.3-32-32v-32h-32v32c0 17.7-14.3 32-32 32h-32c-35.3 0-64-28.7-64-64v-64c0-17.7 14.3-32 32-32z"/></svg>',
+            'hanger': '<svg viewBox="0 0 512 512"><path d="M256 32c-17.7 0-32 14.3-32 32v24.6l-189.9 168C14.4 274.6 0 300.9 0 328.7V352c0 17.7 14.3 32 32 32h448c17.7 0 32-14.3 32-32v-23.3c0-27.8-14.4-54.1-34.1-72.1L288 88.6V64c0-17.7-14.3-32-32-32zm0 134.6l172.5 152.2H83.5L256 166.6z"/></svg>',
+            'bed': '<svg viewBox="0 0 640 512"><path d="M32 32C14.3 32 0 46.3 0 64v384c0 17.7 14.3 32 32 32s32-14.3 32-32V416h512v32c0 17.7 14.3 32 32 32s32-14.3 32-32V160c0-17.7-14.3-32-32-32H288V32c0-17.7-14.3-32-32-32H32zM176 288a80 80 0 1 1 0-160 80 80 0 1 1 0 160z"/></svg>',
+            'sewing': '<svg viewBox="0 0 512 512"><path d="M473.7 73.8l-2.4-2.5c-46-47-118-51.7-169.6-14.8L336 159.9l-96 64 48 128-144-144 96-64-28.6-86.5C159.7 19.6 87 24 40.7 71.4l-2.4 2.4C-10.4 123.6-12.5 203 31.1 256.9L204 430c20 19.9 45.2 31.8 74.1 35.4l5.6.7c31.8 4 64.6-6 87.5-28.4l3.5-3.5C423 385 423.9 306.9 381.1 253.9L208.2 80.8c-20.1-20-45.3-31.9-74.2-35.5l-5.6-.7c-31.8-4-64.7 6-87.6 28.5L37.3 76.6C82 30.6 151.7 26.6 200.7 61.5l144 144-48-128 96-64L336.1 160l28.6 86.6c51.7 37.3 124.4 32.9 170.7-14.5l2.4-2.5c48.7-49.8 50.8-129.2 7.2-183.1z"/></svg>',
+            'bag': '<svg viewBox="0 0 448 512"><path d="M160 112c0-35.3 28.7-64 64-64s64 28.7 64 64h48c0-61.9-50.1-112-112-112S112 50.1 112 112H160zM0 160v288c0 35.3 28.7 64 64 64h320c35.3 0 64-28.7 64-64V160H0z"/></svg>',
+            'shoes': '<svg viewBox="0 0 640 512"><path d="M96 320h448v128H96V320zm-32 0v128c0 17.7 14.3 32 32 32h448c17.7 0 32-14.3 32-32V320c0-17.7-14.3-32-32-32H96c-17.7 0-32 14.3-32 32zM320 0l-32 192h-64L192 0h128zm64 0l32 192h64L512 0H384z"/></svg>',
+            'hoodie': '<svg viewBox="0 0 512 512"><path d="M256 0c-44.2 0-80 35.8-80 80v16h160V80c0-44.2-35.8-80-80-80zM128 128v48c0 17.7 14.3 32 32 32h192c17.7 0 32-14.3 32-32v-48h64c17.7 0 32 14.3 32 32v288c0 17.7-14.3 32-32 32H64c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h64z"/></svg>'
+        };
 
         window.siteState = {
             lang: 'ar',
@@ -1086,21 +1108,21 @@
         function renderCategories() {
             let cats =[];
             if(window.siteState.categories && window.siteState.categories.length > 0) {
-                // الاعتماد على icon بدلا من img
-                cats = window.siteState.categories.map(c => ({ar: c.name_ar, fr: c.name_fr, icon: c.icon || 'fas fa-star'}));
+                cats = window.siteState.categories.map(c => ({ar: c.name_ar, fr: c.name_fr, icon: c.icon || 'dress'}));
             } else {
                 cats =[
-                    {ar:'ملابس نسائية', fr:'Femmes', icon:'fas fa-female'},
-                    {ar:'ملابس أطفال', fr:'Enfants', icon:'fas fa-child'},
-                    {ar:'أفرشة', fr:'Literie', icon:'fas fa-bed'},
-                    {ar:'اكسسوارات', fr:'Accessoires', icon:'fas fa-gem'},
-                    {ar:'خياطة', fr:'Couture', icon:'fas fa-cut'}
+                    {ar:'ملابس نسائية', fr:'Femmes', icon:'dress'},
+                    {ar:'ملابس أطفال', fr:'Enfants', icon:'bodysuit'},
+                    {ar:'أفرشة', fr:'Literie', icon:'bed'},
+                    {ar:'اكسسوارات', fr:'Accessoires', icon:'bag'},
+                    {ar:'خياطة', fr:'Couture', icon:'sewing'}
                 ];
             }
+            
             document.getElementById('categories-container').innerHTML = cats.map(c => `
             <div class="category-item" onclick="filterFrontend('${c.ar}')">
                 <div class="category-icon-wrap">
-                    <i class="${c.icon}"></i>
+                    ${window.apparelIcons[c.icon] || window.apparelIcons['dress']}
                 </div>
                 <p>${window.siteState.lang === 'ar' ? c.ar : c.fr}</p>
             </div>`).join('');
@@ -1457,8 +1479,8 @@
         window.renderAdminCategories = () => {
             document.getElementById('admin-categories-grid').innerHTML = window.siteState.categories.map(c => `
             <div class="product-card" style="border:1px solid #ddd; text-align:center; padding: 15px;">
-                <div style="font-size: 40px; color: var(--primary); margin-bottom: 10px;">
-                    <i class="${c.icon || 'fas fa-star'}"></i>
+                <div style="color: var(--primary); margin: 0 auto 10px auto; width: 45px; height: 45px;">
+                    ${window.apparelIcons[c.icon] || window.apparelIcons['dress']}
                 </div>
                 <div class="product-info" style="padding: 0;">
                     <strong>${c.name_ar}</strong><p>${c.name_fr}</p>
@@ -1472,7 +1494,7 @@
 
         window.openCategoryModal = () => {
             document.getElementById('cat-id').value = '';
-            document.getElementById('cat-icon').value = 'fas fa-tshirt'; 
+            document.getElementById('cat-icon').value = 'dress'; 
             document.getElementById('cat-name-ar').value = '';
             document.getElementById('cat-name-fr').value = '';
             document.getElementById('btn-save-cat').innerText = 'حفظ الفئة';
@@ -1483,7 +1505,7 @@
             const c = window.siteState.categories.find(x => x.id === id);
             if(!c) return;
             document.getElementById('cat-id').value = c.id;
-            document.getElementById('cat-icon').value = c.icon || 'fas fa-tshirt'; 
+            document.getElementById('cat-icon').value = c.icon || 'dress'; 
             document.getElementById('cat-name-ar').value = c.name_ar || '';
             document.getElementById('cat-name-fr').value = c.name_fr || '';
             document.getElementById('btn-save-cat').innerText = 'تحديث الفئة';
