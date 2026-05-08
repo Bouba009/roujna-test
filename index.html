@@ -1,26 +1,3 @@
-لقد قمت بتحديث ستايل الفئات والبانر ليأخذ طابع الأناقة والفخامة (Luxury Fashion
-& Categories)، وذلك عبر التعديلات التالية:
-
-1.  ستايل البانر (Luxury Fashion):
-
-      - تم زيادة ارتفاع البانر ليعطي مظهراً سينمائياً فخماً.
-      - تمت إضافة تأثير الحركة البطيئة (Ken Burns effect) حيث تقوم الصورة بعمل
-        تقريب (Zoom In) ببطء شديد وسلاسة أثناء عرضها.
-      - تمت إضافة تدرج لوني خفيف (Vignette Gradient) فوق الصور يضيف لمسة غموض
-        وأناقة وتبرز فيه التفاصيل بشكل أفضل.
-
-2.  ستايل الفئات (Luxury Categories):
-
-      - تم تحسين تصميم الدوائر بإضافة إطار خارجي نحيف وأنيق مع مساحة داخلية
-        (Padding).
-      - عند تمرير الماوس (Hover) على الفئة، يتم تلوين الإطار النحيف بلون الموقع
-        مع تأثير (Zoom) جذاب لصورة الفئة في الداخل دون الخروج عن الدائرة.
-      - تم تحسين خط الفئات وجعله أكثر وضوحاً وتباعداً ليعطي إحساس العلامات
-        التجارية الفاخرة.
-      - تم تجميل عنوان قسم المنتجات ليناسب النمط الفاخر.
-
-إليك الكود النهائي كاملاً:
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -170,42 +147,33 @@
             transform: scale(1.1); 
         }
 
-        /* ستايل الفئات الفاخرة (Luxury Categories) */
+        /* ستايل الفئات الفاخرة بالأيقونات (Luxury Categories with Icons) */
         .categories { padding: 30px 5%; display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; }
         .categories::-webkit-scrollbar { display: none; }
         .category-item { min-width: 90px; text-align: center; cursor: pointer; }
         
-        .category-img-wrap { 
-            width: 85px; height: 85px; 
+        .category-icon-wrap { 
+            width: 75px; height: 75px; 
             margin: 0 auto; 
             border-radius: 50%; 
-            border: 1px solid #dcdcdc; 
-            padding: 4px; 
+            border: 1px solid #e0e0e0; 
             background: #fff;
-            position: relative; 
-            transition: border-color 0.4s ease;
+            display: flex; justify-content: center; align-items: center;
+            font-size: 30px; color: var(--primary);
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
         }
-        .category-img-wrap .img-inner {
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            overflow: hidden;
-            background: #f8f9fa;
-        }
-        .category-img-wrap img { 
-            width: 100%; height: 100%; 
-            object-fit: cover; 
-            transition: transform 0.6s ease;
-        }
-        .category-item:hover .category-img-wrap {
+        .category-item:hover .category-icon-wrap {
             border-color: var(--primary);
-        }
-        .category-item:hover img {
-            transform: scale(1.15);
+            background: var(--primary);
+            color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
         }
         .category-item p { 
             margin-top: 12px; 
             font-size: 14px; 
-            font-weight: 600; 
+            font-weight: 700; 
             color: var(--dark);
             letter-spacing: 0.5px;
         }
@@ -407,8 +375,6 @@
         }
 
         .category-item, .sidebar ul li, .admin-nav li { transition: all 0.3s ease; -webkit-tap-highlight-color: transparent; }
-        .category-item:hover { transform: translateY(-5px) scale(1.05); }
-        .category-item:active { transform: scale(0.85); transition: transform 0.1s; }
         .product-card:active { transform: scale(0.95); transition: transform 0.1s; -webkit-tap-highlight-color: transparent; }
         .product-card:hover { transform: translateY(-5px); }
         .btn:active, .action-btn:active { transform: scale(0.9); transition: transform 0.1s; -webkit-tap-highlight-color: transparent; }
@@ -829,12 +795,29 @@
         </div>
     </div>
 
+    <!-- المودال الخاص بإضافة الفئات: استبدلنا الصورة بقائمة أيقونات -->
     <div class="modal" id="add-category-modal">
         <div class="modal-content">
             <i class="fas fa-times close-modal" onclick="closeModal('add-category-modal')"></i>
             <h2 id="modal-category-title" style="margin-bottom:15px;">إضافة/تعديل فئة</h2>
             <input type="hidden" id="cat-id">
-            <div class="form-group" style="margin-bottom:10px;"><label>صورة الفئة</label><input type="file" id="cat-img" class="form-control" accept="image/*"></div>
+            <div class="form-group" style="margin-bottom:10px;">
+                <label>أيقونة الفئة</label>
+                <select id="cat-icon" class="form-control">
+                    <option value="fas fa-tshirt">ملابس عامة / تيشيرت</option>
+                    <option value="fas fa-female">ملابس نسائية / فستان</option>
+                    <option value="fas fa-child">ملابس أطفال</option>
+                    <option value="fas fa-bed">أفرشة / سرير</option>
+                    <option value="fas fa-gem">اكسسوارات / جوهرة</option>
+                    <option value="fas fa-cut">خياطة / مقص</option>
+                    <option value="fas fa-shoe-prints">أحذية</option>
+                    <option value="fas fa-glasses">نظارات</option>
+                    <option value="fas fa-hat-cowboy">قبعات</option>
+                    <option value="fas fa-shopping-bag">حقائب</option>
+                    <option value="fas fa-ring">خواتم / مجوهرات</option>
+                    <option value="fas fa-star">نجمة / أخرى</option>
+                </select>
+            </div>
             <div class="form-row">
                 <div><label>الاسم (عربي)</label><input type="text" id="cat-name-ar" class="form-control"></div>
                 <div><label>الاسم (فرنسي)</label><input type="text" id="cat-name-fr" class="form-control"></div>
@@ -1103,16 +1086,21 @@
         function renderCategories() {
             let cats =[];
             if(window.siteState.categories && window.siteState.categories.length > 0) {
-                cats = window.siteState.categories.map(c => ({ar: c.name_ar, fr: c.name_fr, img: c.img}));
+                // الاعتماد على icon بدلا من img
+                cats = window.siteState.categories.map(c => ({ar: c.name_ar, fr: c.name_fr, icon: c.icon || 'fas fa-star'}));
             } else {
-                cats =[{ar:'ملابس نسائية', fr:'Femmes', img:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=150'},{ar:'ملابس أطفال', fr:'Enfants', img:'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=150'},{ar:'أفرشة', fr:'Literie', img:'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=150'},{ar:'اكسسوارات', fr:'Accessoires', img:'https://images.unsplash.com/photo-1509319117193-57bab727e09d?w=150'},{ar:'خياطة', fr:'Couture', img:'https://images.unsplash.com/photo-1584286595398-a59f21d313f5?w=150'}];
+                cats =[
+                    {ar:'ملابس نسائية', fr:'Femmes', icon:'fas fa-female'},
+                    {ar:'ملابس أطفال', fr:'Enfants', icon:'fas fa-child'},
+                    {ar:'أفرشة', fr:'Literie', icon:'fas fa-bed'},
+                    {ar:'اكسسوارات', fr:'Accessoires', icon:'fas fa-gem'},
+                    {ar:'خياطة', fr:'Couture', icon:'fas fa-cut'}
+                ];
             }
             document.getElementById('categories-container').innerHTML = cats.map(c => `
             <div class="category-item" onclick="filterFrontend('${c.ar}')">
-                <div class="category-img-wrap">
-                    <div class="img-inner">
-                        <img src="${c.img}" loading="lazy" alt="${c.ar}">
-                    </div>
+                <div class="category-icon-wrap">
+                    <i class="${c.icon}"></i>
                 </div>
                 <p>${window.siteState.lang === 'ar' ? c.ar : c.fr}</p>
             </div>`).join('');
@@ -1468,9 +1456,11 @@
 
         window.renderAdminCategories = () => {
             document.getElementById('admin-categories-grid').innerHTML = window.siteState.categories.map(c => `
-            <div class="product-card" style="border:1px solid #ddd; text-align:center;">
-                <img src="${c.img}" style="width:100%; aspect-ratio:1/1; object-fit:cover;">
-                <div class="product-info">
+            <div class="product-card" style="border:1px solid #ddd; text-align:center; padding: 15px;">
+                <div style="font-size: 40px; color: var(--primary); margin-bottom: 10px;">
+                    <i class="${c.icon || 'fas fa-star'}"></i>
+                </div>
+                <div class="product-info" style="padding: 0;">
                     <strong>${c.name_ar}</strong><p>${c.name_fr}</p>
                     <div style="display:flex; justify-content:space-between; gap:5px; margin-top:10px;">
                         <button class="btn" style="background:var(--secondary); padding:5px;" onclick="window.editCategory('${c.id}')">تعديل</button>
@@ -1482,7 +1472,7 @@
 
         window.openCategoryModal = () => {
             document.getElementById('cat-id').value = '';
-            document.getElementById('cat-img').value = ''; 
+            document.getElementById('cat-icon').value = 'fas fa-tshirt'; 
             document.getElementById('cat-name-ar').value = '';
             document.getElementById('cat-name-fr').value = '';
             document.getElementById('btn-save-cat').innerText = 'حفظ الفئة';
@@ -1493,7 +1483,7 @@
             const c = window.siteState.categories.find(x => x.id === id);
             if(!c) return;
             document.getElementById('cat-id').value = c.id;
-            document.getElementById('cat-img').value = ''; 
+            document.getElementById('cat-icon').value = c.icon || 'fas fa-tshirt'; 
             document.getElementById('cat-name-ar').value = c.name_ar || '';
             document.getElementById('cat-name-fr').value = c.name_fr || '';
             document.getElementById('btn-save-cat').innerText = 'تحديث الفئة';
@@ -1501,15 +1491,14 @@
         };
 
         window.saveCategory = async () => {
-            const btn = document.getElementById('btn-save-cat'); btn.innerText="جاري الرفع..."; btn.disabled=true;
+            const btn = document.getElementById('btn-save-cat'); btn.innerText="جاري الحفظ..."; btn.disabled=true;
             const id = document.getElementById('cat-id').value;
-            const file = document.getElementById('cat-img').files[0];
-            let base64Img = null;
-            if(file) base64Img = await compressImage(file, 400);
-
-            const catData = { name_ar: document.getElementById('cat-name-ar').value, name_fr: document.getElementById('cat-name-fr').value };
-            if(base64Img) catData.img = base64Img;
-            else if(!id) catData.img = 'https://via.placeholder.com/150';
+            
+            const catData = { 
+                name_ar: document.getElementById('cat-name-ar').value, 
+                name_fr: document.getElementById('cat-name-fr').value,
+                icon: document.getElementById('cat-icon').value
+            };
 
             if(id) { await updateDoc(doc(db, "categories", id), catData); } 
             else { await addDoc(collection(db, "categories"), catData); }
