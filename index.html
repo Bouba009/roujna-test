@@ -1,3 +1,26 @@
+لقد قمت بتحديث ستايل الفئات والبانر ليأخذ طابع الأناقة والفخامة (Luxury Fashion
+& Categories)، وذلك عبر التعديلات التالية:
+
+1.  ستايل البانر (Luxury Fashion):
+
+      - تم زيادة ارتفاع البانر ليعطي مظهراً سينمائياً فخماً.
+      - تمت إضافة تأثير الحركة البطيئة (Ken Burns effect) حيث تقوم الصورة بعمل
+        تقريب (Zoom In) ببطء شديد وسلاسة أثناء عرضها.
+      - تمت إضافة تدرج لوني خفيف (Vignette Gradient) فوق الصور يضيف لمسة غموض
+        وأناقة وتبرز فيه التفاصيل بشكل أفضل.
+
+2.  ستايل الفئات (Luxury Categories):
+
+      - تم تحسين تصميم الدوائر بإضافة إطار خارجي نحيف وأنيق مع مساحة داخلية
+        (Padding).
+      - عند تمرير الماوس (Hover) على الفئة، يتم تلوين الإطار النحيف بلون الموقع
+        مع تأثير (Zoom) جذاب لصورة الفئة في الداخل دون الخروج عن الدائرة.
+      - تم تحسين خط الفئات وجعله أكثر وضوحاً وتباعداً ليعطي إحساس العلامات
+        التجارية الفاخرة.
+      - تم تجميل عنوان قسم المنتجات ليناسب النمط الفاخر.
+
+إليك الكود النهائي كاملاً:
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -53,7 +76,7 @@
 
     <style>
         :root {
-            --primary: #e74c3c; /* اللون الأحمر الافتراضي */
+            --primary: #e74c3c;
             --secondary: #c0392b;
             --dark: #2c3e50;
             --light: #ecf0f1;
@@ -114,20 +137,100 @@
         .close-sidebar { font-size: 24px; cursor: pointer; color: var(--danger); text-align: left; display: block; }
         .sidebar ul li { padding: 15px 0; border-bottom: 1px solid #eee; font-size: 18px; cursor: pointer; }
 
-        .hero-slider { width: 100%; height: 350px; position: relative; overflow: hidden; background: #eee; }
-        .slide { width: 100%; height: 100%; position: absolute; top: 0; left: 0; opacity: 0; transition: opacity 1s; background-size: cover; background-position: center; cursor:pointer;}
-        .slide.active { opacity: 1; }
+        /* ستايل البانر الفاخر (Luxury Fashion) */
+        .hero-slider { 
+            width: 100%; 
+            height: 450px; 
+            position: relative; 
+            overflow: hidden; 
+            background: #111; 
+        }
+        @media (min-width: 768px) {
+            .hero-slider { height: 550px; }
+        }
+        .slide { 
+            width: 100%; height: 100%; 
+            position: absolute; top: 0; left: 0; 
+            opacity: 0; 
+            background-size: cover; background-position: center; 
+            cursor: pointer;
+            transform: scale(1);
+            /* تأثير حركة سينمائية فاخرة والزوم البطيء */
+            transition: opacity 1.5s ease-in-out, transform 7s ease-out; 
+        }
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.3) 100%);
+            pointer-events: none;
+        }
+        .slide.active { 
+            opacity: 1; 
+            transform: scale(1.1); 
+        }
 
-        .categories { padding: 20px 5%; display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; }
+        /* ستايل الفئات الفاخرة (Luxury Categories) */
+        .categories { padding: 30px 5%; display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; }
         .categories::-webkit-scrollbar { display: none; }
-        .category-item { min-width: 80px; text-align: center; cursor: pointer; }
-        .category-img-wrap { width: 70px; height: 70px; margin: 0 auto; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; position: relative; background:#fff;}
-        .category-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
-        .category-item p { margin-top: 8px; font-size:14px; font-weight: bold; }
+        .category-item { min-width: 90px; text-align: center; cursor: pointer; }
+        
+        .category-img-wrap { 
+            width: 85px; height: 85px; 
+            margin: 0 auto; 
+            border-radius: 50%; 
+            border: 1px solid #dcdcdc; 
+            padding: 4px; 
+            background: #fff;
+            position: relative; 
+            transition: border-color 0.4s ease;
+        }
+        .category-img-wrap .img-inner {
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+        .category-img-wrap img { 
+            width: 100%; height: 100%; 
+            object-fit: cover; 
+            transition: transform 0.6s ease;
+        }
+        .category-item:hover .category-img-wrap {
+            border-color: var(--primary);
+        }
+        .category-item:hover img {
+            transform: scale(1.15);
+        }
+        .category-item p { 
+            margin-top: 12px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: var(--dark);
+            letter-spacing: 0.5px;
+        }
 
-        .products-section { padding: 20px 5%; }
-        .section-title { text-align: center; font-size: 22px; margin: 0 auto 25px auto; position: relative; display: block; width: fit-content; }
-        .section-title::after { content: ''; width: 50%; height: 3px; background: var(--primary); position: absolute; bottom: -5px; left: 25%; }
+        .products-section { padding: 40px 5%; }
+        /* تحسين عنوان الأقسام ليتناسب مع النمط الفاخر */
+        .section-title { 
+            text-align: center; 
+            font-size: 26px; 
+            font-weight: 800; 
+            letter-spacing: 1px;
+            margin: 0 auto 35px auto; 
+            position: relative; 
+            display: block; 
+            width: fit-content; 
+        }
+        .section-title::after { 
+            content: ''; 
+            width: 50px; 
+            height: 3px; 
+            background: var(--primary); 
+            position: absolute; 
+            bottom: -10px; 
+            left: calc(50% - 25px); 
+        }
         
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .product-card { background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: var(--transition); cursor: pointer; position:relative; display:flex; flex-direction:column; }
@@ -787,7 +890,7 @@
 
         window.siteState = {
             lang: 'ar',
-            products:[], banners: [], orders: [], sewingOrders: [], accounting: [], categories:[],
+            products:[], banners:[], orders: [], sewingOrders: [], accounting: [], categories:[],
             wilayas:[
                 {id:16, name_ar:'الجزائر', name_fr:'Alger', price_desk:400, price_home:600},
                 {id:9, name_ar:'البليدة', name_fr:'Blida', price_desk:300, price_home:500}
@@ -1007,7 +1110,9 @@
             document.getElementById('categories-container').innerHTML = cats.map(c => `
             <div class="category-item" onclick="filterFrontend('${c.ar}')">
                 <div class="category-img-wrap">
-                    <img src="${c.img}" loading="lazy" alt="${c.ar}">
+                    <div class="img-inner">
+                        <img src="${c.img}" loading="lazy" alt="${c.ar}">
+                    </div>
                 </div>
                 <p>${window.siteState.lang === 'ar' ? c.ar : c.fr}</p>
             </div>`).join('');
