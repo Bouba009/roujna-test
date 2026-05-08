@@ -44,6 +44,7 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     
+    <!-- تم إضافة defer لمنع هذه الملفات من إيقاف تحميل الصفحة -->
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -62,6 +63,7 @@
             --transition: all 0.3s ease;
         }
 
+        /* إصلاح مشكلة الإزاحة الجانبية عند التحميل */
         html { max-width: 100vw; overflow-x: hidden; }
         body { width: 100%; max-width: 100vw; overflow-x: hidden; margin: 0; padding: 0; background-color: #f8f9fa; color: var(--dark); }
         
@@ -74,13 +76,16 @@
 
         .fade-in { animation: fadeIn 0.5s ease-out; }
 
+        /* لودر البداية (نقاط وامضة) يغطي الشاشة بأكملها لمدة 1 ثانية فقط */
         #global-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
             background: #ffffff; z-index: 999999;
             display: flex; justify-content: center; align-items: center; flex-direction: column;
             transition: opacity 0.4s ease, visibility 0.4s ease;
         }
-        .blinking-dots { display: flex; gap: 8px; margin-top: 15px; }
+        .blinking-dots {
+            display: flex; gap: 8px; margin-top: 15px;
+        }
         .blinking-dots .dot {
             width: 12px; height: 12px; background: var(--primary); border-radius: 50%;
             animation: blinkDot 1.4s infinite both;
@@ -109,45 +114,92 @@
         .close-sidebar { font-size: 24px; cursor: pointer; color: var(--danger); text-align: left; display: block; }
         .sidebar ul li { padding: 15px 0; border-bottom: 1px solid #eee; font-size: 18px; cursor: pointer; }
 
-        .hero-slider { width: 100%; height: 450px; position: relative; overflow: hidden; background: #111; }
-        @media (min-width: 768px) { .hero-slider { height: 550px; } }
+        /* ستايل البانر الاحترافي (بدون Zoom، تلاشي ناعم فقط) */
+        .hero-slider { 
+            width: 100%; 
+            height: 450px; 
+            position: relative; 
+            overflow: hidden; 
+            background: #111; 
+        }
+        @media (min-width: 768px) {
+            .hero-slider { height: 550px; }
+        }
         .slide { 
-            width: 100%; height: 100%; position: absolute; top: 0; left: 0; 
-            opacity: 0; background-size: cover; background-position: center; 
-            cursor: pointer; transition: opacity 1.5s ease-in-out; 
+            width: 100%; height: 100%; 
+            position: absolute; top: 0; left: 0; 
+            opacity: 0; 
+            background-size: cover; background-position: center; 
+            cursor: pointer;
+            transition: opacity 1.5s ease-in-out; 
         }
         .slide::after {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.3) 100%);
             pointer-events: none;
         }
         .slide.active { opacity: 1; }
 
-        /* ستايل الفئات والأيقونات */
+        /* ستايل الفئات الفاخرة بالأيقونات متعددة الألوان */
         .categories { padding: 30px 5%; display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; }
         .categories::-webkit-scrollbar { display: none; }
         .category-item { min-width: 90px; text-align: center; cursor: pointer; }
         
         .category-icon-wrap { 
-            width: 75px; height: 75px; margin: 0 auto; border-radius: 50%; 
-            border: 2px solid var(--primary); background: #fff;
+            width: 75px; height: 75px; 
+            margin: 0 auto; 
+            border-radius: 50%; 
+            border: 2px solid var(--primary); 
+            background: #fff;
             display: flex; justify-content: center; align-items: center;
-            color: var(--primary); transition: all 0.3s ease;
+            transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
         .category-icon-wrap svg {
-            width: 35px; height: 35px;
+            width: 38px;
+            height: 38px;
             transition: transform 0.3s ease;
         }
         .category-item:hover .category-icon-wrap {
-            background: var(--primary); color: #fff;
-            transform: translateY(-5px); box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+            background: #fff;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            border-color: var(--secondary);
         }
-        .category-item p { margin-top: 12px; font-size: 14px; font-weight: 700; color: var(--dark); letter-spacing: 0.5px; }
+        .category-item:hover .category-icon-wrap svg {
+            transform: scale(1.15);
+        }
+        .category-item p { 
+            margin-top: 12px; 
+            font-size: 14px; 
+            font-weight: 700; 
+            color: var(--dark);
+            letter-spacing: 0.5px;
+        }
 
         .products-section { padding: 40px 5%; }
-        .section-title { text-align: center; font-size: 26px; font-weight: 800; letter-spacing: 1px; margin: 0 auto 35px auto; position: relative; display: block; width: fit-content; }
-        .section-title::after { content: ''; width: 50px; height: 3px; background: var(--primary); position: absolute; bottom: -10px; left: calc(50% - 25px); }
+        /* تحسين عنوان الأقسام ليتناسب مع النمط الفاخر */
+        .section-title { 
+            text-align: center; 
+            font-size: 26px; 
+            font-weight: 800; 
+            letter-spacing: 1px;
+            margin: 0 auto 35px auto; 
+            position: relative; 
+            display: block; 
+            width: fit-content; 
+        }
+        .section-title::after { 
+            content: ''; 
+            width: 50px; 
+            height: 3px; 
+            background: var(--primary); 
+            position: absolute; 
+            bottom: -10px; 
+            left: calc(50% - 25px); 
+        }
         
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .product-card { background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: var(--transition); cursor: pointer; position:relative; display:flex; flex-direction:column; }
@@ -156,8 +208,31 @@
         .product-info { padding: 15px 10px; text-align:center; flex:1; display:flex; flex-direction:column; justify-content:space-between;}
         .product-title { font-size: 15px; font-weight: bold; margin-bottom: 10px; }
         
-        .price-frame { display: inline-block; padding: 6px 15px; background-color: transparent; border: 2px solid var(--primary); border-radius: 8px; color: var(--primary); font-weight: 800; font-size: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .details-price-frame { display: inline-block; padding: 10px 25px; background-color: transparent; border: 2px dashed var(--primary); border-radius: 12px; color: var(--primary); font-size: 26px; font-weight: 800; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        /* إطار السعر المميز */
+        .price-frame {
+            display: inline-block;
+            padding: 6px 15px;
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            color: var(--primary);
+            font-weight: 800;
+            font-size: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .details-price-frame {
+            display: inline-block;
+            padding: 10px 25px;
+            background-color: transparent;
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            color: var(--primary);
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
         .old-price { text-decoration: line-through; color: #999; font-size: 13px; margin-right: 5px; }
         .badge-featured { position:absolute; top:8px; right:8px; background:var(--secondary); color:white; padding:3px 8px; border-radius:15px; font-size:11px; z-index:10;}
 
@@ -166,6 +241,7 @@
         @media(min-width:768px){ .details-container {flex-direction:row;} .products-grid{ grid-template-columns: repeat(4, 1fr); gap:20px; } }
         
         .details-img-wrap { flex: 1; text-align:center;}
+        /* إظهار صورة المنتج كاملة وعدم قصها */
         .details-main-img-wrap { position: relative; width: 100%; max-width: 450px; margin: 0 auto; border-radius: 10px; overflow: hidden; background:#f8f9fa; }
         .details-main-img-wrap img { width: 100%; height: auto; max-height: 70vh; object-fit: contain; display: block; margin: 0 auto; }
         
@@ -719,7 +795,7 @@
         </div>
     </div>
 
-    <!-- المودال الخاص بإضافة الفئات: القائمة مقتصرة على الـ 5 أيقونات المطلوبة -->
+    <!-- المودال الخاص بإضافة الفئات: القائمة الجديدة بالأيقونات المطلوبة بدقة -->
     <div class="modal" id="add-category-modal">
         <div class="modal-content">
             <i class="fas fa-times close-modal" onclick="closeModal('add-category-modal')"></i>
@@ -729,11 +805,18 @@
             <div class="form-group" style="margin-bottom:10px;">
                 <label>اختر أيقونة الفئة</label>
                 <select id="cat-icon" class="form-control" style="font-weight: bold;">
-                    <option value="dress">فستان (Dress)</option>
-                    <option value="bag">حقيبة (Bag)</option>
-                    <option value="baby">ملابس أطفال (Baby)</option>
-                    <option value="bed">أفرشة (Bed)</option>
-                    <option value="fan">مروحة يد (Fan)</option>
+                    <option value="dress">فستان امرأة (Dress)</option>
+                    <option value="shoe">حذاء (Shoe)</option>
+                    <option value="heels">حذاء نسائي (Heels)</option>
+                    <option value="bag">حقيبة نسائية (Handbag)</option>
+                    <option value="bed">سرير (Bed)</option>
+                    <option value="child">ملابس طفل (Child Clothes)</option>
+                    <option value="skirt">تنورة طفلة صغيرة (Girl Skirt)</option>
+                    <option value="baby">رضيع (Baby)</option>
+                    <option value="tshirt">قميص تشيرت (T-Shirt)</option>
+                    <option value="pants">سروال (Pants)</option>
+                    <option value="scissors">مقص (Scissors)</option>
+                    <option value="needle">إبرة وخيط (Needle & Thread)</option>
                 </select>
             </div>
 
@@ -790,18 +873,25 @@
 
         const adminHash = "I2FtaXJhMjAyNiM=";
 
-        // مكتبة الأيقونات المخصصة: الـ 5 فقط المطابقة للصور المرفقة.
+        // مكتبة الأيقونات المخصصة (أيقونات احترافية متعددة الألوان ومليئة بالتفاصيل والتدرجات)
         window.apparelIcons = {
-            'dress': '<svg viewBox="0 0 512 512" fill="currentColor"><path d="M344 32c-14 0-26 10-30 23l-16 60c-11 12-26 21-42 21s-31-9-42-21l-16-60c-4-13-16-23-30-23s-26 10-30 23l-32 128c-4 15 8 30 24 30h38l-68 256c-4 15 8 31 24 31h224c16 0 28-16 24-31l-68-256h38c16 0 28-15 24-30l-32-128c-4-13-16-23-30-23z"/></svg>',
-            'bag': '<svg viewBox="0 0 512 512" fill="currentColor"><path d="M416 160h-48v-32c0-53-43-96-96-96s-96 43-96 96v32H128c-35.3 0-64 28.7-64 64v192c0 35.3 28.7 64 64 64h288c35.3 0 64-28.7 64-64V224c0-35.3-28.7-64-64-64zM208 128c0-35.3 28.7-64 64-64s64 28.7 64 64v32H208v-32zm144 192H160v-64h192v64z"/></svg>',
-            'baby': '<svg viewBox="0 0 512 512" fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"><path d="M144 80l48 48 64-48 64 48 48-48v112l64 32-32 64-32-32v160c0 35.3-28.7 64-64 64H208c-35.3 0-64-28.7-64-64V256l-32 32-32-64 64-32V80z"/><path d="M256 176l20 48h48l-36 32 16 52-48-32-48 32 16-52-36-32h48z"/></svg>',
-            'bed': '<svg viewBox="0 0 512 512" fill="currentColor"><path d="M48 224v160h416V224H48zm0-32h416c17.7 0 32 14.3 32 32v192c0 17.7-14.3 32-32 32H48c-17.7 0-32-14.3-32-32V224c0-17.7 14.3-32 32-32z"/><path d="M48 96c-17.7 0-32 14.3-32 32v64h32v-64h192v64h32v-64c0-17.7-14.3-32-32-32H48z"/><path d="M64 160h80v32H64zm112 0h80v32h-80z"/><path d="M416 192v-64h16v64h-16zm-32-64l24-64h32l24 64h-80z"/></svg>',
-            'fan': '<svg viewBox="0 0 512 512" fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round"><path d="M144 416a48 48 0 1 1 0-96 48 48 0 0 1 0 96z"/><path d="M176 384L448 128A288 288 0 0 0 80 432l64-48"/><path d="M168 360l120-280"/><path d="M152 368l240-184"/><path d="M160 376l272-80"/></svg>'
+            'dress': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="dress-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF6B6B" /><stop offset="100%" stop-color="#C44536" /></linearGradient></defs><path fill="url(#dress-grad)" d="M352 128c-12.7-31.9-46.3-56-82-62.5V32c0-17.7-14.3-32-32-32s-32 14.3-32 32v33.5c-35.7 6.5-69.3 30.6-82 62.5L88 238.4C76.2 268 98 300 130 300h15.8L121 462.4c-4.4 24.6 14.4 46.5 39.4 49.2 32.1 3.4 66.8 5.4 95.6 5.4s63.5-2 95.6-5.4c25-2.7 43.8-24.6 39.4-49.2L366.2 300H382c32 0 53.8-32 42-61.6L352 128z"/><path fill="#FFFFFF" opacity="0.2" d="M256 65.5V512c28.8 0 63.5-2 95.6-5.4 25-2.7 43.8-24.6 39.4-49.2L366.2 300H382c32 0 53.8-32 42-61.6L352 128c-12.7-31.9-46.3-56-82-62.5z"/><path fill="#FFD1D1" d="M256 160c-26.5 0-48-21.5-48-48h96c0 26.5-21.5 48-48 48z"/></svg>',
+            'shoe': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="shoe-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#4B8BFF" /><stop offset="100%" stop-color="#2A65FF" /></linearGradient></defs><path fill="url(#shoe-grad)" d="M480 320h-48v-64c0-35.3-28.7-64-64-64h-32l-32-64H160c-35.3 0-64 28.7-64 64v128H48c-26.5 0-48 21.5-48 48v64h480c17.7 0 32-14.3 32-32v-48c0-17.7-14.3-32-32-32z"/><path fill="#FFFFFF" opacity="0.2" d="M480 320H256v112h256v-48c0-17.7-14.3-32-32-32z"/><path fill="#DCE6FF" d="M0 400h512v32c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32v-32z"/><path fill="#FFFFFF" d="M96 224h128v16H96zm0 48h128v16H96z"/></svg>',
+            'heels': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="heels-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#E63946" /><stop offset="100%" stop-color="#B31222" /></linearGradient></defs><path fill="url(#heels-grad)" d="M448 384h-48V208c0-35.3-28.7-64-64-64H224L112 304H32c-17.7 0-32 14.3-32 32v48h144l96-128h96v128H448c17.7 0 32-14.3 32-32v-64c0-17.7-14.3-32-32-32z"/><path fill="#FFFFFF" opacity="0.2" d="M448 384h-48V208c0-35.3-28.7-64-64-64H256v240h192c17.7 0 32-14.3 32-32v-64z"/><path fill="#1D3557" d="M400 384h48v96c0 17.7-14.3 32-32 32s-32-14.3-32-32v-96z"/></svg>',
+            'bag': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="bag-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F4A261" /><stop offset="100%" stop-color="#E76F51" /></linearGradient></defs><path fill="url(#bag-grad)" d="M384 160H128c-35.3 0-64 28.7-64 64v192c0 35.3 28.7 64 64 64h256c35.3 0 64-28.7 64-64V224c0-35.3-28.7-64-64-64z"/><path fill="#FFFFFF" opacity="0.2" d="M384 160H256v320h128c35.3 0 64-28.7 64-64V224c0-35.3-28.7-64-64-64z"/><path fill="#2A9D8F" d="M160 160V96c0-53 43-96 96-96s96 43 96 96v64h-32V96c0-35.3-28.7-64-64-64s-64 28.7-64 64v64h-32z"/><path fill="#E9C46A" d="M224 256h64v64h-64z"/></svg>',
+            'bed': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="bed-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8ECAE6" /><stop offset="100%" stop-color="#219EBC" /></linearGradient></defs><path fill="url(#bed-grad)" d="M480 256H32c-17.7 0-32 14.3-32 32v160h512V288c0-17.7-14.3-32-32-32z"/><path fill="#FFFFFF" opacity="0.2" d="M480 256H256v192h256V288c0-17.7-14.3-32-32-32z"/><path fill="#FFB703" d="M96 256c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64S32 60.7 32 96v96c0 35.3 28.7 64 64 64z"/><path fill="#FB8500" d="M96 32h-16v224h16c35.3 0 64-28.7 64-64V96c0-35.3-28.7-64-64-64z"/><path fill="#023047" d="M32 448v32c0 17.7-14.3 32-32 32s-32-14.3-32-32v-32h64zm448 0v32c0 17.7 14.3 32 32 32s32-14.3 32-32v-32h-64z"/></svg>',
+            'child': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="child-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FFCA3A" /><stop offset="100%" stop-color="#FF9F1C" /></linearGradient></defs><path fill="url(#child-grad)" d="M384 128H128c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32h32v128c0 35.3 28.7 64 64 64h128c35.3 0 64-28.7 64-64V320h32c17.7 0 32-14.3 32-32v-96c0-35.3-28.7-64-64-64z"/><path fill="#FFFFFF" opacity="0.2" d="M384 128H256v384h64c35.3 0 64-28.7 64-64V320h32c17.7 0 32-14.3 32-32v-96c0-35.3-28.7-64-64-64z"/><path fill="#8AC926" d="M256 64c26.5 0 48 21.5 48 48h32c0-44.2-35.8-80-80-80s-80 35.8-80 80h32c0-26.5 21.5-48 48-48z"/><circle fill="#FFFFFF" cx="256" cy="224" r="24"/><circle fill="#FFFFFF" cx="256" cy="320" r="24"/></svg>',
+            'skirt': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="skirt-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9D4EDD" /><stop offset="100%" stop-color="#7B2CBF" /></linearGradient></defs><path fill="url(#skirt-grad)" d="M448 384L352 160H160L64 384c-17.7 41.3 12.5 80 56 80h272c43.5 0 73.7-38.7 56-80z"/><path fill="#FFFFFF" opacity="0.2" d="M448 384L352 160H256v304h136c43.5 0 73.7-38.7 56-80z"/><path fill="#FF9E00" d="M160 128h192c17.7 0 32-14.3 32-32s-14.3-32-32-32H160c-17.7 0-32 14.3-32 32s14.3 32 32 32z"/><path fill="#FFFFFF" opacity="0.3" d="M160 160l-32 224h256l-32-224H160z"/></svg>',
+            'baby': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="baby-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#00F5D4" /><stop offset="100%" stop-color="#00BBF9" /></linearGradient></defs><path fill="url(#baby-grad)" d="M256 64C150 64 64 150 64 256v64h384v-64C448 150 362 64 256 64z"/><path fill="#FFFFFF" opacity="0.2" d="M448 256v64H256V64c106 0 192 86 192 192z"/><path fill="#FEE440" d="M64 320h384v32c0 35.3-28.7 64-64 64H128c-35.3 0-64-28.7-64-64v-32z"/><circle fill="#F15BB5" cx="160" cy="448" r="48"/><circle fill="#F15BB5" cx="352" cy="448" r="48"/><path fill="#9B5DE5" d="M448 256h32c17.7 0 32-14.3 32-32s-14.3-32-32-32h-32v64z"/></svg>',
+            'tshirt': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="tshirt-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8338EC" /><stop offset="100%" stop-color="#3A0CA3" /></linearGradient></defs><path fill="url(#tshirt-grad)" d="M480 128L352 64H160L32 128l32 96h64v224h256V224h64l32-96z"/><path fill="#FFFFFF" opacity="0.2" d="M480 128L352 64H256v384h128V224h64l32-96z"/><path fill="#FF006E" d="M160 64c0 53 43 96 96 96s96-43 96-96h-192z"/></svg>',
+            'pants': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="pants-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#3A86FF" /><stop offset="100%" stop-color="#023E8A" /></linearGradient></defs><path fill="url(#pants-grad)" d="M128 64h256c17.7 0 32 14.3 32 32v352c0 17.7-14.3 32-32 32h-64c-17.7 0-32-14.3-32-32V256h-64v192c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32V96c0-17.7 14.3-32 32-32z"/><path fill="#FFFFFF" opacity="0.2" d="M384 64H256v192h32v192c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32V96c0-17.7-14.3-32-32-32z"/><path fill="#FFBE0B" d="M128 64h256v32H128z"/></svg>',
+            'scissors': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="scissors-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#9A8C98" /><stop offset="100%" stop-color="#4A4E69" /></linearGradient><linearGradient id="scissors-handle" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#F2E9E4" /><stop offset="100%" stop-color="#C9ADA7" /></linearGradient></defs><path fill="url(#scissors-grad)" d="M480 32L320 192l64 64L512 64 480 32z"/><path fill="url(#scissors-grad)" d="M480 480L320 320l-64 64L32 128l32-32 448 352-32 32z"/><circle fill="url(#scissors-handle)" cx="128" cy="128" r="64"/><circle fill="#22223B" cx="128" cy="128" r="32"/><circle fill="url(#scissors-handle)" cx="128" cy="384" r="64"/><circle fill="#22223B" cx="128" cy="384" r="32"/><circle fill="#22223B" cx="288" cy="256" r="16"/></svg>',
+            'needle': '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="thread-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#EF476F" /><stop offset="100%" stop-color="#D90429" /></linearGradient><linearGradient id="needle-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#E5E5E5" /><stop offset="100%" stop-color="#B2B2B2" /></linearGradient></defs><path fill="#8D99AE" d="M128 64h128v384H128z"/><path fill="#2B2D42" d="M96 32h192v32H96zM96 448h192v32H96z"/><path fill="url(#thread-grad)" d="M112 128h160v256H112z"/><path fill="#FFFFFF" opacity="0.3" d="M112 160h160v16H112zM112 224h160v16H112zM112 288h160v16H112zM112 352h160v16H112z"/><path fill="url(#needle-grad)" d="M480 32l-32-32L288 160l32 32L480 32z"/><circle fill="#2B2D42" cx="448" cy="64" r="8"/><path fill="none" stroke="url(#thread-grad)" stroke-width="16" d="M448 64C448 192 272 192 272 320C272 448 384 448 384 320"/></svg>'
         };
 
         window.siteState = {
             lang: 'ar',
-            products:[], banners:[], orders:[], sewingOrders: [], accounting:[], categories:[],
+            products:[], banners:[], orders:[], sewingOrders:[], accounting: [], categories:[],
             wilayas:[
                 {id:16, name_ar:'الجزائر', name_fr:'Alger', price_desk:400, price_home:600},
                 {id:9, name_ar:'البليدة', name_fr:'Blida', price_desk:300, price_home:500}
@@ -884,6 +974,7 @@
             await recordVisit();
             router();
             
+            // إخفاء شاشة التحميل بعد 1 ثانية
             setTimeout(() => {
                 const loader = document.getElementById('global-loader');
                 if(loader) {
@@ -1017,10 +1108,10 @@
             } else {
                 cats =[
                     {ar:'فستان امرأة', fr:'Robes', icon:'dress'},
-                    {ar:'حقائب', fr:'Sacs', icon:'bag'},
-                    {ar:'ملابس أطفال', fr:'Enfants', icon:'baby'},
-                    {ar:'أفرشة', fr:'Literie', icon:'bed'},
-                    {ar:'مروحة / اكسسوار', fr:'Accessoires', icon:'fan'}
+                    {ar:'حذاء نسائي', fr:'Talons', icon:'heels'},
+                    {ar:'ملابس أطفال', fr:'Enfants', icon:'child'},
+                    {ar:'رضع', fr:'Bébés', icon:'baby'},
+                    {ar:'أفرشة', fr:'Literie', icon:'bed'}
                 ];
             }
             
@@ -1384,7 +1475,7 @@
         window.renderAdminCategories = () => {
             document.getElementById('admin-categories-grid').innerHTML = window.siteState.categories.map(c => `
             <div class="product-card" style="border:1px solid #ddd; text-align:center; padding: 15px;">
-                <div class="category-icon-wrap" style="color: var(--primary); margin: 0 auto 10px auto; width: 45px; height: 45px; border:none; box-shadow:none;">
+                <div style="color: var(--primary); margin: 0 auto 10px auto; width: 45px; height: 45px;">
                     ${window.apparelIcons[c.icon] || window.apparelIcons['dress']}
                 </div>
                 <div class="product-info" style="padding: 0;">
