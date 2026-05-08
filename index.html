@@ -6,7 +6,8 @@
     <!-- تحسينات الـ SEO -->
     <title>ROUJÎNA | روجينا</title>
     <meta name="description" content="ROUJÎNA - متجرك الأول للأناقة والتصميم. تسوق أحدث الملابس النسائية، ملابس الأطفال، والأفرشة.">
-    <meta name="theme-color" content="#8e44ad">
+    <!-- تم تغيير اللون الافتراضي للأحمر -->
+    <meta name="theme-color" content="#e74c3c">
 
     <!-- تسريع الاتصال بالخوادم الخارجية -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,8 +53,8 @@
 
     <style>
         :root {
-            --primary: #8e44ad;
-            --secondary: #f39c12;
+            --primary: #e74c3c; /* اللون الأحمر الافتراضي */
+            --secondary: #c0392b;
             --dark: #2c3e50;
             --light: #ecf0f1;
             --white: #ffffff;
@@ -72,21 +73,27 @@
 
         .fade-in { animation: fadeIn 0.5s ease-out; }
 
-        #global-loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            background: var(--white); z-index: 99999;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            transition: opacity 0.3s ease;
+        /* أنيميشن تحميل 3 نقاط للصور */
+        .dots-loader {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: #f1f1f1; display: flex; justify-content: center; align-items: center; gap: 6px;
+            z-index: 2; animation: fadeOutDots 0.3s 1s forwards;
+            border-radius: inherit;
         }
-        .global-spinner {
-            border: 5px solid #f3f3f3; border-top: 5px solid var(--primary);
-            border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin-bottom: 20px;
+        .dots-loader .dot {
+            width: 8px; height: 8px; background: var(--primary); border-radius: 50%;
+            animation: bounceDot 0.5s infinite alternate;
         }
+        .dots-loader .dot:nth-child(2) { animation-delay: 0.15s; }
+        .dots-loader .dot:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes bounceDot { 0% { transform: translateY(0); } 100% { transform: translateY(-6px); } }
+        @keyframes fadeOutDots { to { opacity: 0; visibility: hidden; } }
 
         header { background: var(--white); box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .header-top { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; }
         .logo { font-size: 28px; font-weight: 800; color: var(--primary); letter-spacing: 2px; display:flex; align-items:center; }
-        .logo img { max-height: 40px; border-radius: 5px; }
+        .logo img { max-height: 40px; border-radius: 5px; object-fit: contain; }
         .search-bar { display: flex; flex: 1; margin: 0 15px; background: #f1f1f1; border-radius: 25px; padding: 5px 15px; }
         .search-bar input { border: none; background: transparent; width: 100%; outline: none; padding: 8px; font-size:14px; }
         .header-icons i { font-size: 22px; margin-left: 15px; cursor: pointer; color: var(--dark); transition: var(--transition); }
@@ -104,7 +111,8 @@
         .categories { padding: 20px 5%; display: flex; gap: 15px; overflow-x: auto; scroll-behavior: smooth; }
         .categories::-webkit-scrollbar { display: none; }
         .category-item { min-width: 80px; text-align: center; cursor: pointer; }
-        .category-item img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+        .category-img-wrap { width: 70px; height: 70px; margin: 0 auto; border-radius: 50%; border: 2px solid var(--primary); overflow: hidden; position: relative; }
+        .category-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
         .category-item p { margin-top: 8px; font-size:14px; font-weight: bold; }
 
         .products-section { padding: 20px 5%; }
@@ -113,7 +121,8 @@
         
         .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
         .product-card { background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.08); transition: var(--transition); cursor: pointer; position:relative; display:flex; flex-direction:column; }
-        .product-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+        .product-img-wrap { position: relative; width: 100%; aspect-ratio: 1 / 1; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; }
         .product-info { padding: 10px; text-align:center; flex:1; display:flex; flex-direction:column; justify-content:space-between;}
         .product-title { font-size: 15px; font-weight: bold; margin-bottom: 5px; }
         .product-price { color: var(--primary); font-size: 18px; font-weight: 800; }
@@ -124,7 +133,8 @@
         .details-container { display: flex; flex-direction:column; gap: 20px; }
         @media(min-width:768px){ .details-container {flex-direction:row;} .products-grid{ grid-template-columns: repeat(4, 1fr); gap:20px; } }
         .details-img-wrap { flex: 1; text-align:center;}
-        .details-img-wrap img { width: 100%; max-width:400px; border-radius: 10px; aspect-ratio:1/1; object-fit:cover;}
+        .details-main-img-wrap { position: relative; width: 100%; max-width: 400px; margin: 0 auto; border-radius: 10px; overflow: hidden; aspect-ratio: 1 / 1; }
+        .details-main-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
         .details-info { flex: 1; }
         
         .order-form { background: #fff; padding: 30px; border-radius: 15px; margin-top: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #f0f0f0; }
@@ -133,7 +143,7 @@
         .input-icon-wrap { position: relative; }
         .input-icon-wrap i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #888; }
         .pro-input { width: 100%; padding: 14px 40px 14px 15px; border: 2px solid #eef0f3; border-radius: 10px; outline: none; transition: var(--transition); font-family: inherit; font-size: 15px; background: #f9fafb; color:#333; }
-        .pro-input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(142,68,173,0.1); }
+        .pro-input:focus { border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(231,76,60,0.1); }
         .pro-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         
         .variant-selector { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -184,6 +194,7 @@
         #admin-panel { display: none; display: flex; height: 100vh; background: #f4f6f9; overflow: hidden; direction: rtl;}
         .admin-sidebar { width: 250px; background: var(--dark); color: white; display: flex; flex-direction: column; overflow-y: auto; transition:0.3s;}
         .admin-logo { padding: 20px; text-align: center; font-size: 22px; font-weight: bold; border-bottom: 1px solid #34495e; color: var(--secondary); display:flex; justify-content:center; align-items:center;}
+        .admin-logo img { max-height: 40px; border-radius: 5px; }
         .admin-nav { list-style: none; padding: 0; margin: 0; }
         .admin-nav li { padding: 15px 20px; cursor: pointer; border-bottom: 1px solid #34495e; transition: 0.3s; font-size:15px;}
         .admin-nav li:hover, .admin-nav li.active { background: var(--primary); border-left: 4px solid var(--secondary); }
@@ -230,6 +241,7 @@
         .tab-section.active { display: block; animation: fadeIn 0.4s; }
         .form-row { display: flex; flex-wrap:wrap; gap: 10px; margin-bottom: 10px;}
         .form-row > div { flex: 1; min-width:150px;}
+        
         .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--primary); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
@@ -268,11 +280,6 @@
 </head>
 <body>
 
-    <div id="global-loader">
-        <div class="global-spinner"></div>
-        <h2 style="color:var(--primary); font-weight:bold; letter-spacing: 2px;">ROUJÎNA</h2>
-    </div>
-
     <div id="top-ad-banner">
         <i class="fas fa-times close-ad" onclick="this.parentElement.style.display='none'" aria-label="إغلاق الإعلان"></i>
         <div id="top-ad-content"></div>
@@ -282,7 +289,9 @@
         <header>
             <div class="header-top">
                 <i class="fas fa-bars header-icons" id="menu-btn" aria-label="القائمة الجانبية"></i>
-                <div class="logo" id="site-logo" onclick="showPage('home')" style="cursor:pointer;" aria-label="الرئيسية">ROUJÎNA</div>
+                <div class="logo" id="site-logo" onclick="showPage('home')" style="cursor:pointer;" aria-label="الرئيسية">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj0i_Jg2sWVr1Smn0bN-Cf7LLw1bY-n0kfLW-QtlQE0GLM0zX8NWlPs-x5f1byO8NtvaoxwwdCwtV7rumSVZUfMOO7HhNalEE3TTd0T03h-TOmtWAhHbfDRePuehBapztoK0OLONSHUcQarZBn5mVxubYz-3rkHbtUTgi_7buUTPIPgqdt52vlT9pt6F-A/s320/1000015863.jpg" alt="ROUJÎNA">
+                </div>
                 <div class="search-bar">
                     <input type="text" id="search-input" placeholder="ابحث عن المنتجات..." onkeyup="frontendSearch()" aria-label="ابحث عن المنتجات">
                     <i class="fas fa-search" style="color:#888;" aria-hidden="true"></i>
@@ -329,7 +338,9 @@
         <footer>
             <div class="footer-grid">
                 <div>
-                    <h2 class="logo" style="color:white;" id="footer-logo">ROUJÎNA</h2>
+                    <h2 class="logo" style="color:white;" id="footer-logo">
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj0i_Jg2sWVr1Smn0bN-Cf7LLw1bY-n0kfLW-QtlQE0GLM0zX8NWlPs-x5f1byO8NtvaoxwwdCwtV7rumSVZUfMOO7HhNalEE3TTd0T03h-TOmtWAhHbfDRePuehBapztoK0OLONSHUcQarZBn5mVxubYz-3rkHbtUTgi_7buUTPIPgqdt52vlT9pt6F-A/s320/1000015863.jpg" alt="ROUJÎNA">
+                    </h2>
                     <p style="margin-top:10px; font-size:14px;" data-ar="متجرك الأول للأناقة والتصميم." data-fr="Votre boutique d'élégance.">متجرك الأول للأناقة والتصميم.</p>
                     <div class="social-icons" style="margin-top:15px;" id="footer-socials">
                         <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -414,7 +425,9 @@
 
     <div id="admin-panel">
         <div class="admin-sidebar" id="admin-sidebar">
-            <div class="admin-logo" id="admin-sidebar-logo">Admin | ROUJÎNA</div>
+            <div class="admin-logo" id="admin-sidebar-logo">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj0i_Jg2sWVr1Smn0bN-Cf7LLw1bY-n0kfLW-QtlQE0GLM0zX8NWlPs-x5f1byO8NtvaoxwwdCwtV7rumSVZUfMOO7HhNalEE3TTd0T03h-TOmtWAhHbfDRePuehBapztoK0OLONSHUcQarZBn5mVxubYz-3rkHbtUTgi_7buUTPIPgqdt52vlT9pt6F-A/s320/1000015863.jpg" alt="Admin | ROUJÎNA">
+            </div>
             <ul class="admin-nav">
                 <li class="active" onclick="switchAdminTab('tab-dash', this)"><i class="fas fa-tachometer-alt"></i> الداشبورد والإحصائيات</li>
                 <li onclick="window.currentOrderFilter='all'; switchAdminTab('tab-orders', this); if(window.renderAdminOrders) window.renderAdminOrders();"><i class="fas fa-shopping-cart"></i> الطلبيات العادية</li>
@@ -523,8 +536,8 @@
 
                 <h3 style="margin-top:30px;">تغيير ألوان الموقع (Theme)</h3>
                 <div style="display:flex; gap:10px; margin-top:10px;">
+                    <div style="width:40px;height:40px;background:#e74c3c;border-radius:50%;cursor:pointer;" onclick="changeTheme('#e74c3c')"></div>
                     <div style="width:40px;height:40px;background:#8e44ad;border-radius:50%;cursor:pointer;" onclick="changeTheme('#8e44ad')"></div>
-                    <div style="width:40px;height:40px;background:#c0392b;border-radius:50%;cursor:pointer;" onclick="changeTheme('#c0392b')"></div>
                     <div style="width:40px;height:40px;background:#d35400;border-radius:50%;cursor:pointer;" onclick="changeTheme('#d35400')"></div>
                     <input type="color" id="custom-color" class="form-control" style="width:50px; height:40px; padding:0;" onchange="changeTheme(this.value)" title="لون مخصص">
                 </div>
@@ -706,7 +719,7 @@
     </div>
 
 
-    <!-- السكربت المجمع الكامل بدون أي اختصارات -->
+    <!-- السكربت المجمع الكامل -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
         import { getFirestore, collection, addDoc, doc, setDoc, deleteDoc, updateDoc, onSnapshot, increment } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-firestore.js";
@@ -732,7 +745,21 @@
                 {id:16, name_ar:'الجزائر', name_fr:'Alger', price_desk:400, price_home:600},
                 {id:9, name_ar:'البليدة', name_fr:'Blida', price_desk:300, price_home:500}
             ],
-            settings: { whatsapp: "213540021900", about_ar: "ورشة روجينا", about_fr: "Atelier ROUJINA", priv_ar:"الخصوصية", priv_fr:"Confidentialité", ship_ar:"سياسة الشحن", ship_fr:"Politique de livraison", theme: "#8e44ad", map:"", logo:"", head:"", top_ad:"", pop_ad:"" }
+            settings: { 
+                whatsapp: "213540021900", 
+                about_ar: "ورشة روجينا", 
+                about_fr: "Atelier ROUJINA", 
+                priv_ar:"الخصوصية", 
+                priv_fr:"Confidentialité", 
+                ship_ar:"سياسة الشحن", 
+                ship_fr:"Politique de livraison", 
+                theme: "#e74c3c", 
+                map:"", 
+                logo:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj0i_Jg2sWVr1Smn0bN-Cf7LLw1bY-n0kfLW-QtlQE0GLM0zX8NWlPs-x5f1byO8NtvaoxwwdCwtV7rumSVZUfMOO7HhNalEE3TTd0T03h-TOmtWAhHbfDRePuehBapztoK0OLONSHUcQarZBn5mVxubYz-3rkHbtUTgi_7buUTPIPgqdt52vlT9pt6F-A/s320/1000015863.jpg", 
+                head:"", 
+                top_ad:"", 
+                pop_ad:"" 
+            }
         };
 
         window.openModal = (id) => { document.getElementById(id).style.display = 'flex'; };
@@ -795,12 +822,6 @@
             setupFirebaseListeners();
             await recordVisit();
             router();
-            
-            // تسريع اختفاء شاشة التحميل
-            setTimeout(() => {
-                document.getElementById('global-loader').style.opacity = '0';
-                setTimeout(() => document.getElementById('global-loader').style.display = 'none', 300);
-            }, 100);
         });
 
         function router() {
@@ -926,13 +947,23 @@
             } else {
                 cats =[{ar:'ملابس نسائية', fr:'Femmes', img:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=150'},{ar:'ملابس أطفال', fr:'Enfants', img:'https://images.unsplash.com/photo-1519689680058-324335c77eba?w=150'},{ar:'أفرشة', fr:'Literie', img:'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=150'},{ar:'اكسسوارات', fr:'Accessoires', img:'https://images.unsplash.com/photo-1509319117193-57bab727e09d?w=150'},{ar:'خياطة', fr:'Couture', img:'https://images.unsplash.com/photo-1584286595398-a59f21d313f5?w=150'}];
             }
-            document.getElementById('categories-container').innerHTML = cats.map(c => `<div class="category-item" onclick="filterFrontend('${c.ar}')"><img src="${c.img}" loading="lazy" alt="${c.ar}"><p>${window.siteState.lang === 'ar' ? c.ar : c.fr}</p></div>`).join('');
+            document.getElementById('categories-container').innerHTML = cats.map(c => `
+            <div class="category-item" onclick="filterFrontend('${c.ar}')">
+                <div class="category-img-wrap">
+                    <div class="dots-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                    <img src="${c.img}" loading="lazy" alt="${c.ar}">
+                </div>
+                <p>${window.siteState.lang === 'ar' ? c.ar : c.fr}</p>
+            </div>`).join('');
         }
 
         function renderBanners() {
             const slider = document.getElementById('hero-slider');
             if(window.siteState.banners.length === 0) { slider.innerHTML = `<div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80')"></div>`; return; }
-            slider.innerHTML = window.siteState.banners.map((b, i) => `<div class="slide ${i===0?'active':''}" style="background-image:url('${b.img}')" onclick="${b.link ? `window.location.href='${b.link}'` : ''}"></div>`).join('');
+            slider.innerHTML = window.siteState.banners.map((b, i) => `
+            <div class="slide ${i===0?'active':''}" style="background-image:url('${b.img}')" onclick="${b.link ? `window.location.href='${b.link}'` : ''}">
+                <div class="dots-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            </div>`).join('');
             let current = 0; const slides = document.querySelectorAll('.slide');
             if(window.sliderInt) clearInterval(window.sliderInt);
             window.sliderInt = setInterval(() => {
@@ -954,7 +985,10 @@
                 return `
                 <div class="product-card" onclick="window.location.hash='#product-${p.id}'">
                     ${p.featured ? `<div class="badge-featured">${window.siteState.lang==='ar'?'مميز':'Spécial'}</div>` : ''}
-                    <img src="${thumbImg}" class="product-img" loading="lazy" alt="${prodTitle}">
+                    <div class="product-img-wrap">
+                        <div class="dots-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                        <img src="${thumbImg}" class="product-img" loading="lazy" alt="${prodTitle}">
+                    </div>
                     <div class="product-info">
                         <div class="product-title">${prodTitle}</div>
                         <div>${p.oldPrice ? `<span class="old-price">${p.oldPrice} DA</span>` : ''} <span class="product-price">${p.price} DA</span></div>
@@ -994,7 +1028,10 @@
 
             document.getElementById('single-product-container').innerHTML = `
                 <div class="details-img-wrap">
-                    <img id="main-prod-img" src="${mainImg}" alt="${name}">
+                    <div class="details-main-img-wrap">
+                        <div class="dots-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                        <img id="main-prod-img" src="${mainImg}" alt="${name}">
+                    </div>
                     ${galleryHtml}
                 </div>
                 <div class="details-info">
