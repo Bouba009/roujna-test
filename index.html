@@ -439,7 +439,7 @@
             justify-content: flex-start;
         }
         
-        /* جعل لوغوات مواقع التواصل الاجتماعي ملونة وثابتة تماماً بدون أي تأثير تداخل للوضع العادي */
+        /* معالجة أيقونات السوشيال ميديا بالكامل لمنع التداخل والتشوه الشكلي بالوضع العادي والليل */
         .social-icons a.social-btn { 
             font-size: 20px; 
             display: inline-flex;
@@ -449,28 +449,29 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            border: 1.5px solid currentColor; /* إطار ملوّن بثبات ومطابق للأيقونة */
             transition: none; /* إلغاء أي تأثير انتقال أو تغير لوني */
+            box-shadow: none !important; /* إلغاء تداخل الظلال الموروثة */
         }
         
+        /* تباين كامل بملء الخلفية الدائرية (Solid) مع أيقونة بيضاء ناصعة لمكافحة الخلفيات الفاتحة والمبهمة */
         .social-icons a.instagram {
-            color: #e1306c !important;
-            background: rgba(225, 48, 108, 0.08) !important;
+            color: #ffffff !important;
+            background: #e1306c !important;
         }
         
         .social-icons a.facebook {
-            color: #1877f2 !important;
-            background: rgba(24, 119, 242, 0.08) !important;
+            color: #ffffff !important;
+            background: #1877f2 !important;
         }
         
         .social-icons a.tiktok {
-            color: #1a1a1a !important;
-            background: rgba(26, 26, 26, 0.08) !important;
+            color: #ffffff !important;
+            background: #111111 !important;
         }
         
         body.dark-mode .social-icons a.tiktok {
-            color: #ffffff !important;
-            background: rgba(255, 255, 255, 0.08) !important;
+            color: #111111 !important;
+            background: #ffffff !important;
         }
         
         .footer-links li { margin-bottom: 10px; cursor: pointer; font-size: 14px; color: var(--text-muted); transition: var(--transition); }
@@ -652,6 +653,7 @@
                     <h2 class="logo" style="color:var(--text-main);" id="footer-logo"><i class="fas fa-chair"></i> <span class="logo-brand">kourci</span></h2>
                     <p style="margin-top:10px; font-size:14px;" data-ar="متجرك الأول لأرقى الطاولات والكراسي." data-fr="Votre boutique des meilleures tables et chaises.">Votre boutique des meilleures tables et chaises.</p>
                     <div class="social-icons" id="footer-socials">
+                        <!-- تم الترقية والتعديل البرمجي هنا لمنع التشوه التبايني واللوني بالكامل -->
                         <a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="social-btn facebook"><i class="fab fa-facebook"></i></a>
                         <a href="#" class="social-btn tiktok"><i class="fab fa-tiktok"></i></a>
@@ -1346,7 +1348,7 @@
             const isAr = window.siteState.lang === 'ar';
             const currency = isAr ? 'دج' : 'DA';
             if(window.siteState.favorites.length === 0) {
-                container.innerHTML = `<p style="text-align:center; padding:20px; color:var(--text-muted);">${isAr ? 'المفضلة فارغة' : 'Aucun favori'}</p>';
+                container.innerHTML = `<p style="text-align:center; padding:20px; color:var(--text-muted);">${isAr ? 'المفضلة فارغة' : 'Aucun favori'}</p>`;
                 return;
             }
             const favProducts = window.siteState.products.filter(p => window.siteState.favorites.includes(p.id));
