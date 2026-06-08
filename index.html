@@ -387,7 +387,7 @@
         .variant-box { padding: 10px 20px; border: 1px solid var(--border-color); border-radius: 12px; background: var(--bg-card); transition: var(--transition); font-weight: bold; color: var(--text-muted); }
         .variant-label input:checked + .variant-box { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 4px 10px rgba(192, 130, 70, 0.3); }
 
-        /* --- الأزرار العائمة المتوازية في نفس السطر --- */
+        /* --- الأزرار العائمة المتوازية في نفس السطر بدقة تصميم متناهية --- */
         .whatsapp-fab { 
             position: fixed; bottom: 100px; left: 20px; width: 56px; height: 56px; border-radius: 50%; 
             background: #25d366; color: white; display: flex; justify-content: center; align-items: center; 
@@ -396,10 +396,10 @@
         }
         .whatsapp-fab:hover { transform: scale(1.1) translateY(-3px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.6); }
 
-        /* تم استبدال الكلاس البرمجي .fab بالكامل بـ .custom-floating-btn لمنع التعارض البرمجي مع FontAwesome */
+        /* [تم الحل الجذري النهائي هنا]: تغيير اسم الكلاس البرمجي لزر المطرقة العائم إلى .custom-floating-btn بالكامل لمنع أي تعارض لوني أو شكلي مع FontAwesome */
         .custom-floating-btn { width: 56px; height: 56px; border-radius: 50%; display: flex; justify-content: center; align-items: center; color: white; font-size: 22px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: var(--transition); }
         .custom-floating-btn:hover { transform: scale(1.1); }
-        .fab-custom { background: var(--primary); box-shadow: 0 4px 15px rgba(192, 130, 70, 0.3); }
+        .custom-floating-btn-custom { background: var(--primary); box-shadow: 0 4px 15px rgba(192, 130, 70, 0.3); }
 
         .fab-buy-now, .btn-pulse-submit { animation: pulseBtn 2s infinite; }
 
@@ -439,7 +439,7 @@
             justify-content: flex-start;
         }
         
-        /* معالجة أيقونات السوشيال ميديا بالكامل لمنع التداخل والتشوه الشكلي بالوضع العادي والليل */
+        /* جعل لوغوات مواقع التواصل الاجتماعي ملونة وثابتة تماماً بدون أي تأثير تداخل للوضع العادي والليل */
         .social-icons a.social-btn { 
             font-size: 20px; 
             display: inline-flex;
@@ -449,27 +449,40 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
+            border: 1.5px solid currentColor; /* إطار ملوّن بثبات ومطابق للأيقونة */
             transition: none; /* إلغاء أي تأثير انتقال أو تغير لوني */
-            box-shadow: none !important; /* إلغاء تداخل الظلال الموروثة */
+            box-shadow: none !important; /* إلغاء تداخل الظلال الموروثة بالكامل */
         }
         
         /* تباين كامل بملء الخلفية الدائرية (Solid) مع أيقونة بيضاء ناصعة لمكافحة الخلفيات الفاتحة والمبهمة */
-        .social-icons a.instagram {
+        .social-icons a.instagram,
+        .social-icons a.instagram i,
+        #footer-socials a.instagram,
+        #footer-socials a.instagram i {
             color: #ffffff !important;
             background: #e1306c !important;
         }
         
-        .social-icons a.facebook {
+        .social-icons a.facebook,
+        .social-icons a.facebook i,
+        #footer-socials a.facebook,
+        #footer-socials a.facebook i {
             color: #ffffff !important;
             background: #1877f2 !important;
         }
         
-        .social-icons a.tiktok {
+        .social-icons a.tiktok,
+        .social-icons a.tiktok i,
+        #footer-socials a.tiktok,
+        #footer-socials a.tiktok i {
             color: #ffffff !important;
             background: #111111 !important;
         }
         
-        body.dark-mode .social-icons a.tiktok {
+        body.dark-mode .social-icons a.tiktok,
+        body.dark-mode .social-icons a.tiktok i,
+        body.dark-mode #footer-socials a.tiktok,
+        body.dark-mode #footer-socials a.tiktok i {
             color: #111111 !important;
             background: #ffffff !important;
         }
@@ -694,7 +707,7 @@
         </div>
 
         <!-- زر المطرقة العائم على الجهة اليمنى والواتساب على الجهة اليسرى في نفس السطر متوازيان -->
-        <div class="custom-floating-btn fab-custom" id="hammer-fab" onclick="openModal('custom-modal')" title="Fabrication sur mesure" style="position: fixed; bottom: 100px; right: 20px; z-index: 1002;"><i class="fas fa-hammer"></i></div>
+        <div class="custom-floating-btn custom-floating-btn-custom" id="hammer-fab" onclick="openModal('custom-modal')" title="Fabrication sur mesure" style="position: fixed; bottom: 100px; right: 20px; z-index: 1002;"><i class="fas fa-hammer"></i></div>
         <div class="whatsapp-fab" id="whatsapp-fab" onclick="openWhatsapp()" style="position: fixed; bottom: 100px; left: 20px; z-index: 1002;"><i class="fab fa-whatsapp"></i></div>
     </div>
 
@@ -789,7 +802,7 @@
                 <li onclick="switchAdminTab('tab-categories', this)" data-adm-ar="إدارة الفئات" data-adm-fr="Gestion des Catégories"><i class="fas fa-tags"></i> Gestion des Catégories</li>
                 <li onclick="switchAdminTab('tab-banners', this)" data-adm-ar="البانرات" data-adm-fr="Bannières & Couleurs"><i class="fas fa-images"></i> Bannières & Couleurs</li>
                 <li onclick="switchAdminTab('tab-shipping', this)" data-adm-ar="الولايات والتوصيل" data-adm-fr="Tarifs de Livraison"><i class="fas fa-truck"></i> Tarifs de Livraison</li>
-                <li onclick="switchAdminTab('tab-invoice', this)" data-adm-ar="تحرير فاتورة" data-adm-fr="Création de Facture"><i class="fas fa-file-invoice"></i> Création de Facture</li>
+                <li onclick="switchAdminTab('tab-invoice', this)" data-adm-ar="تحرير فاتورة" data-adm-fr="Création de Facture"><i class="fas fa-file-invoice"></i> Creation de Facture</li>
                 <li onclick="switchAdminTab('tab-accounting', this)" data-adm-ar="إدارتي المالية" data-adm-fr="Gestion Financière"><i class="fas fa-wallet"></i> Gestion Financière</li>
                 <li onclick="switchAdminTab('tab-settings', this)" data-adm-ar="الإعدادات" data-adm-fr="Configuration Global"><i class="fas fa-cog"></i> Configuration Global</li>
                 <li onclick="logoutAdmin()" style="color: #e74c3c; margin-top: 30px;" data-adm-ar="تسجيل الخروج" data-adm-fr="Déconnexion"><i class="fas fa-sign-out-alt"></i> Déconnexion</li>
