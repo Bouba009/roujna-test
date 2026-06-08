@@ -439,7 +439,7 @@
             justify-content: flex-start;
         }
         
-        /* جعل لوغوات مواقع التواصل الاجتماعي ملونة وثابتة تماماً بدون أي تأثير تداخل للوضع العادي والليل */
+        /* جعل لوغوات مواقع التواصل الاجتماعي بلون ذهبي ثابت ومتناسق تماماً مع هوية الموقع في الوضعين العادي والليلي */
         .social-icons a.social-btn { 
             font-size: 20px; 
             display: inline-flex;
@@ -449,42 +449,18 @@
             align-items: center;
             justify-content: center;
             text-decoration: none;
-            border: 1.5px solid currentColor; /* إطار ملوّن بثبات ومطابق للأيقونة */
-            transition: none; /* إلغاء أي تأثير انتقال أو تغير لوني */
+            
+            /* اللون الذهبي الفاخر الثابت للمنصات في كلا الوضعين */
+            color: var(--primary) !important;
+            background: rgba(192, 130, 70, 0.08) !important;
+            border: 1.5px solid var(--primary) !important;
+            
             box-shadow: none !important; /* إلغاء تداخل الظلال الموروثة بالكامل */
+            transition: none !important; /* إلغاء أي تأثير انتقال أو تغير لوني */
         }
         
-        /* تباين كامل بملء الخلفية الدائرية (Solid) مع أيقونة بيضاء ناصعة لمكافحة الخلفيات الفاتحة والمبهمة */
-        .social-icons a.instagram,
-        .social-icons a.instagram i,
-        #footer-socials a.instagram,
-        #footer-socials a.instagram i {
-            color: #ffffff !important;
-            background: #e1306c !important;
-        }
-        
-        .social-icons a.facebook,
-        .social-icons a.facebook i,
-        #footer-socials a.facebook,
-        #footer-socials a.facebook i {
-            color: #ffffff !important;
-            background: #1877f2 !important;
-        }
-        
-        .social-icons a.tiktok,
-        .social-icons a.tiktok i,
-        #footer-socials a.tiktok,
-        #footer-socials a.tiktok i {
-            color: #ffffff !important;
-            background: #111111 !important;
-        }
-        
-        body.dark-mode .social-icons a.tiktok,
-        body.dark-mode .social-icons a.tiktok i,
-        body.dark-mode #footer-socials a.tiktok,
-        body.dark-mode #footer-socials a.tiktok i {
-            color: #111111 !important;
-            background: #ffffff !important;
+        .social-icons a.social-btn i {
+            color: var(--primary) !important;
         }
         
         .footer-links li { margin-bottom: 10px; cursor: pointer; font-size: 14px; color: var(--text-muted); transition: var(--transition); }
@@ -535,7 +511,7 @@
 
         .admin-table-wrap { overflow-x:auto; background:var(--bg-card); border-radius:16px; border: 1px solid var(--border-color); box-shadow:var(--shadow); }
         .admin-table { width: 100%; border-collapse: collapse; min-width:600px;}
-        .admin-table th, .admin-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); font-size:14px; vertical-align: middle; color: var(--text-main); }
+        .admin-table th, .admin-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 14px; vertical-align: middle; color: var(--text-main); }
         .admin-table th { background: var(--bg-body); color: var(--text-main); font-weight: bold; }
         .status-badge { padding: 6px 12px; border-radius: 20px; font-size: 12px; color: white; border:none; outline:none; font-weight:bold;}
         .status-pending { background: #f1c40f; color:#000;}
@@ -666,7 +642,7 @@
                     <h2 class="logo" style="color:var(--text-main);" id="footer-logo"><i class="fas fa-chair"></i> <span class="logo-brand">kourci</span></h2>
                     <p style="margin-top:10px; font-size:14px;" data-ar="متجرك الأول لأرقى الطاولات والكراسي." data-fr="Votre boutique des meilleures tables et chaises.">Votre boutique des meilleures tables et chaises.</p>
                     <div class="social-icons" id="footer-socials">
-                        <!-- تم الترقية والتعديل البرمجي هنا لمنع التشوه التبايني واللوني بالكامل -->
+                        <!-- تم التعديل لتكون الأيقونات باللون الذهبي الثابت الموحد وبأبعاد دائرية مثالية وبدون أي تأثير هوفر -->
                         <a href="#" class="social-btn instagram"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="social-btn facebook"><i class="fab fa-facebook"></i></a>
                         <a href="#" class="social-btn tiktok"><i class="fab fa-tiktok"></i></a>
@@ -751,7 +727,9 @@
                     <label style="display:block;margin-bottom:5px; font-weight: bold;" data-ar="الولاية" data-fr="Wilaya">Wilaya</label>
                     <select class="form-control" id="custom-wilaya" required></select>
                 </div>
-                <button type="submit" class="btn" id="custom-submit-btn" data-ar="تأكيد الطلب" data-fr="Confirmer">Confirmer</button>
+                <div style="display:flex; gap:10px;">
+                    <button type="submit" class="btn" id="custom-submit-btn" data-ar="تأكيد الطلب" data-fr="Confirmer">Confirmer</button>
+                </div>
             </form>
         </div>
     </div>
@@ -802,7 +780,7 @@
                 <li onclick="switchAdminTab('tab-categories', this)" data-adm-ar="إدارة الفئات" data-adm-fr="Gestion des Catégories"><i class="fas fa-tags"></i> Gestion des Catégories</li>
                 <li onclick="switchAdminTab('tab-banners', this)" data-adm-ar="البانرات" data-adm-fr="Bannières & Couleurs"><i class="fas fa-images"></i> Bannières & Couleurs</li>
                 <li onclick="switchAdminTab('tab-shipping', this)" data-adm-ar="الولايات والتوصيل" data-adm-fr="Tarifs de Livraison"><i class="fas fa-truck"></i> Tarifs de Livraison</li>
-                <li onclick="switchAdminTab('tab-invoice', this)" data-adm-ar="تحرير فاتورة" data-adm-fr="Création de Facture"><i class="fas fa-file-invoice"></i> Creation de Facture</li>
+                <li onclick="switchAdminTab('tab-invoice', this)" data-adm-ar="تحرير فاتورة" data-adm-fr="Création de Facture"><i class="fas fa-file-invoice"></i> Création de Facture</li>
                 <li onclick="switchAdminTab('tab-accounting', this)" data-adm-ar="إدارتي المالية" data-adm-fr="Gestion Financière"><i class="fas fa-wallet"></i> Gestion Financière</li>
                 <li onclick="switchAdminTab('tab-settings', this)" data-adm-ar="الإعدادات" data-adm-fr="Configuration Global"><i class="fas fa-cog"></i> Configuration Global</li>
                 <li onclick="logoutAdmin()" style="color: #e74c3c; margin-top: 30px;" data-adm-ar="تسجيل الخروج" data-adm-fr="Déconnexion"><i class="fas fa-sign-out-alt"></i> Déconnexion</li>
@@ -1028,7 +1006,7 @@
             products: [
                 { id: '1', name_ar: 'كرسي مودرن فاخر', name_fr: 'Chaise Moderne Luxe', price: 6500, oldPrice: 8500, category: 'كراسي', img: 'https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=600', images: ['https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?w=600'], sizes: '45x45x90', colors: 'Beige, Gris, Marron', stock: 15, featured: true, rating: 4.7, desc: "Chaise confortable au design contemporain, rembourrée de mousse haute densité avec pieds solides." },
                 { id: '2', name_ar: 'طاولة طعام خشب', name_fr: 'Table à manger en bois', price: 22900, oldPrice: 28000, category: 'طاولات', img: 'https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?w=600', images: ['https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?w=600'], sizes: '140x80x75, 180x90x75', colors: 'Naturel, Chêne Foncé', stock: 6, featured: true, rating: 4.8, desc: "Table à manger chaleureuse en bois massif d'excellent quality, robuste et résistante." },
-                { id: '3', name_ar: 'كرسي مريح', name_fr: 'Chaise Confortable', price: 8900, category: 'كراسي', img: 'https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?w=600', images: ['https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?w=600'], sizes: 'Unique', colors: 'Noir, Gris', stock: 12, featured: false, rating: 4.6, desc: "Chaise ergonomique idéale pour de longues heures d'assise, confortable et élégante." },
+                { id: '3', name_ar: 'كرسي مريح', name_fr: 'Chaise Confortable', price: 8900, category: 'كراسي', img: 'https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?w=600', images: ['https://images.unsplash.com/photo-1580481072645-022f9a6dbf27?w=600'], sizes: 'Unique', colors: 'Noir, Gris', stock: 12, featured: false, rating: 4.6, desc: "Chaise ergonomique idéale pour de longues hours d'assise, confortable et élégante." },
                 { id: '4', name_ar: 'طاولة خشب كلاسيك', name_fr: 'Table en bois classique', price: 18500, category: 'طاولات', img: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=200', images: ['https://images.unsplash.com/photo-1533090161767-e6ffed986c88?w=200'], sizes: '120x80x75', colors: 'Chêne Classique', stock: 5, featured: false, rating: 4.7, desc: "Table classique idéale pour les petits espaces, fabriquée pour durer dans le temps." }
             ],
             banners: [
